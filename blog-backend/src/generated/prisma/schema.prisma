@@ -1,0 +1,54 @@
+// This is your Prisma schema file,
+// learn more about it in the docs: https://pris.ly/d/prisma-schema
+
+// Looking for ways to speed up your queries, or scale easily with your serverless or edge functions?
+// Try Prisma Accelerate: https://pris.ly/cli/accelerate-init
+
+generator client {
+  provider = "prisma-client-js"
+  output   = "../src/generated/prisma"
+}
+
+datasource db {
+  provider = "postgresql"
+  url      = env("DATABASE_URL")
+}
+
+model T_Account {
+  id_Account        String     @id @default(cuid())
+  nome_Account      String
+  email_Account     String     @unique
+  matricula_Account String     @unique
+  password_Account  String
+  createdAt_Account DateTime   @default(now())
+  updatedAt_Account DateTime   @updatedAt
+  T_Perfil          T_Perfil[]
+}
+
+model T_Perfil {
+  id_Perfil               String     @id @default(cuid())
+  nome_Perfil             String
+  email_Perfil            String     @unique
+  matricula_Perfil        String     @unique
+  foto_Perfil             String?
+  descricao_Perfil        String?
+  createdAt_Perfil        DateTime   @default(now())
+  updatedAt_Perfil        DateTime   @updatedAt
+  idAccount_Perfil        String?
+  matriculaAccount_Perfil String?
+  id_Account_Perfil       T_Account? @relation(fields: [idAccount_Perfil], references: [id_Account])
+
+  T_Post T_Post[]
+}
+
+model T_Post {
+  id_Post           String    @id @default(cuid())
+  title_Post        String?
+  content_Post      String
+  image_Post        String?
+  createdAt         DateTime  @default(now())
+  updatedAt         DateTime  @updatedAt
+  author            T_Perfil? @relation(references: [id_Perfil], fields: [t_PerfilId_Perfil])
+  authorId          String?
+  t_PerfilId_Perfil String?
+}

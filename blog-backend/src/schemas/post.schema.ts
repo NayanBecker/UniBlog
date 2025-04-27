@@ -10,6 +10,7 @@ export const createPostSchema = {
   },
 };
 
+<<<<<<< Updated upstream
 export const updatePostSchema = {
   body: {
     type: 'object',
@@ -22,6 +23,13 @@ export const updatePostSchema = {
     additionalProperties: false,
   },
 };
+=======
+export const createPostSchema = z.object({
+  title_Post: z.string().max(100, 'O título pode ter no máximo 100 caracteres').optional(),
+  content_Post: z.string().min(1, 'O conteúdo não pode estar vazio').max(1000, 'O conteúdo pode ter no máximo 1000 caracteres').optional(),
+  image_Post: z.string().optional(),
+});
+>>>>>>> Stashed changes
 
 export const deletePostSchema = {
   body: {
