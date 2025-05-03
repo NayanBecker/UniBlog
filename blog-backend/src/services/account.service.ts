@@ -14,6 +14,7 @@ export interface UpdateAccountDataInterface {
   id_Account: number;
   nome_Account?: string;
   email_Account?: string;
+  matricula_Account?: string;
   password_Account?: string;
 }
 export interface AuthAccountDataInterface {
@@ -40,12 +41,13 @@ export async function createAccountService({ nome_Account, email_Account, passwo
   return createdAccount;
 }
 
-export async function updateAccountService({ id_Account, nome_Account, email_Account, password_Account }: UpdateAccountDataInterface) {
+export async function updateAccountService({ id_Account, nome_Account, email_Account, matricula_Account, password_Account }: UpdateAccountDataInterface) {
 
   const dataToUpdate: any = {};
 
   if (nome_Account) dataToUpdate.nome_Account = nome_Account;
   if (email_Account) dataToUpdate.email_Account = email_Account;
+  if (matricula_Account) dataToUpdate.matricula_Account = matricula_Account; 
   if (password_Account) {
     dataToUpdate.password_Account = await hash(password_Account, 8);
   }
@@ -63,6 +65,11 @@ export async function updateAccountService({ id_Account, nome_Account, email_Acc
 }
 
 
+export async function deleteAccountService(id_Account: number) {
+  await db.t_Account.delete({
+    where: { id_Account },
+  });
+}
 
 
 export async function authenticateAccountService({ email_Account, password_Account, }: AuthAccountDataInterface) {

@@ -153,7 +153,7 @@ const config = {
       "value": "prisma-client-js"
     },
     "output": {
-      "value": "M:\\UniBlog\\UniBlog\\blog-backend\\src\\generated\\prisma",
+      "value": "C:\\Users\\luish\\OneDrive\\Desktop\\UniBlog\\blog-backend\\src\\generated\\prisma",
       "fromEnvVar": null
     },
     "config": {
@@ -167,7 +167,7 @@ const config = {
       }
     ],
     "previewFeatures": [],
-    "sourceFilePath": "M:\\UniBlog\\UniBlog\\blog-backend\\prisma\\schema.prisma",
+    "sourceFilePath": "C:\\Users\\luish\\OneDrive\\Desktop\\UniBlog\\blog-backend\\prisma\\schema.prisma",
     "isCustomOutput": true
   },
   "relativeEnvPaths": {
@@ -181,12 +181,11 @@ const config = {
     "db"
   ],
   "activeProvider": "postgresql",
-  "postinstall": false,
   "inlineDatasources": {
     "db": {
       "url": {
         "fromEnvVar": "DATABASE_URL",
-        "value": null
+        "value": "postgresql://postgres:postgres@localhost:5432/uniblog?schema=public"
       }
     }
   },
