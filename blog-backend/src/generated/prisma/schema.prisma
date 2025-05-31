@@ -1,6 +1,7 @@
 generator client {
-  provider = "prisma-client-js"
-  output   = "../src/generated/prisma"
+  provider      = "prisma-client-js"
+  binaryTargets = ["native", "debian-openssl-3.0.x"]
+  output        = "../src/generated/prisma"
 }
 
 datasource db {
@@ -54,6 +55,8 @@ model T_Post {
 
   perfil         T_Perfil @relation(fields: [id_Perfil_Post], references: [id_Perfil])
   id_Perfil_Post Int
+
+  interacao T_Interacao?
 }
 
 model T_Curso {
@@ -62,4 +65,16 @@ model T_Curso {
   maxSemestres_Curso Int
 
   perfis T_Perfil[]
+}
+
+model T_Interacao {
+  id_Interacao  Int      @id @default(autoincrement())
+  curtidas      Int      @default(0)
+  visualizacoes Int      @default(0)
+  comentarios   Int      @default(0)
+  createdAt     DateTime @default(now())
+  updatedAt     DateTime @updatedAt
+
+  post              T_Post @relation(fields: [id_Post_Interacao], references: [id_Post])
+  id_Post_Interacao Int    @unique
 }
