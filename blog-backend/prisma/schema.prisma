@@ -1,6 +1,7 @@
 generator client {
-  provider = "prisma-client-js"
-  output   = "../src/generated/prisma"
+  provider      = "prisma-client-js"
+  binaryTargets = ["native", "debian-openssl-3.0.x"]
+  output        = "../src/generated/prisma"
 }
 
 datasource db {
@@ -52,8 +53,9 @@ model T_Post {
   createdAt_Post DateTime @default(now())
   updatedAt_Post DateTime @updatedAt
 
-  perfil         T_Perfil @relation(fields: [id_Perfil_Post], references: [id_Perfil])
+  perfil         T_Perfil          @relation(fields: [id_Perfil_Post], references: [id_Perfil])
   id_Perfil_Post Int
+  interacoes     T_PostInteracao[]
 }
 
 model T_Curso {
@@ -63,3 +65,15 @@ model T_Curso {
 
   perfis T_Perfil[]
 }
+
+model T_PostInteracao {
+  id_Interacao Int           @id @default(autoincrement())
+  visualizacao Int?
+  curtida      Int?
+  createdAt    DateTime      @default(now())
+  updatedAt    DateTime      @updatedAt
+
+  post              T_Post @relation(fields: [id_Post_Interacao], references: [id_Post])
+  id_Post_Interacao Int
+}
+
