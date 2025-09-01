@@ -66,7 +66,8 @@ O UniBlog surge como uma plataforma digital voltada para o ambiente acadêmico, 
 
 <h6 style="color: red;">AULA 04</h6>
 
-**📌 O detalhamento completo dos requisitos pode ser encontrado no [Documento de Requisitos (DR)](https://github.com/luishmattes/UniBlog-Software-Quality/blob/f38ce5eb35fe2997250f1dbdff3b15d962838f1a/Arquivos/Requisitos-UniBlog.md).**
+**📌 O detalhamento completo dos requisitos pode ser encontrado no [Documento de Requisitos (DR)](https://github.com/luishmattes/UniBlog-Software-Quality/blob/b7fd65e1c8a303e352dbc53d030689555031efe1/Arquivos/Requisitos-UniBlog.md).**
+
 
 ### Resumo
 
