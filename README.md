@@ -54,12 +54,20 @@ This project is UniBlog, the University Blog! Created to transform the way stude
    ```
    npm run start
    ```
-3. Install frontend-dependencies:
+
+
+3. Start Front-end
+   ```
+   yarn dev
+   ```
+
+3.1 Install frontend-dependencies:
    ```
    cd blog-frontend
    npm install
    ```
-3.1. Start the server:
+3.2 Start the server:
    ```
    npm run start
    ```
+
