@@ -43,3 +43,9 @@ This project is a university-focused blog API built with Node.js, Fastify, Prism
    ```
    npm run start
    ```
+
+
+7. Start Front-end
+   ```
+   yarn dev
+   ```
