@@ -76,7 +76,8 @@ export async function updateProfileController(request: AuthenticatedRequest, rep
 
 export async function getProfileController(request: AuthenticatedRequest, reply: FastifyReply) {
   try {
-    const { id_Perfil } = idProfileSchema.parse({ id_Perfil: request.headers['id_Perfil'] });
+    const { id_Perfil } = idProfileSchema.parse({ id_Perfil: request.headers['id_perfil'] });
+    console.log(id_Perfil);
     const profile = await getProfileService({ id_Perfil });
 
     return reply.status(200).send(profile);

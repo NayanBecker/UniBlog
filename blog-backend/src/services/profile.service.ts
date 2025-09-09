@@ -102,9 +102,9 @@ export async function deleteProfileService({ id_Perfil }: IdProfileDataInterface
   return deletedProfile;
 }
 
-export async function getProfileService({ id_Perfil }: IdProfileDataInterface) {
+export async function getProfileService(data: IdProfileDataInterface) {
   const getProfile = await db.t_Perfil.findFirst({
-    where: { id_Perfil: id_Perfil },
+    where: { id_Perfil: data.id_Perfil },
     select: {
       id_Perfil: true,
       nome_Perfil: true,
