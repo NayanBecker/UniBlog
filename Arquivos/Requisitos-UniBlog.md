@@ -6,7 +6,7 @@
 Este documento tem como objetivo especificar os requisitos funcionais e não funcionais do UniBlog, um blog universitário digital voltado para a comunidade acadêmica. Ele servirá de base para o desenvolvimento, acompanhamento e validação do sistema, garantindo que o software atenda às necessidades do cliente e dos usuários finais.
 
 ### 1.2 Escopo resumido
-O UniBlog é uma plataforma digital destinada a estudantes, professores e demais membros da comunidade universitária. Seu objetivo é centralizar informações acadêmicas e extracurriculares em um único ambiente, permitindo a publicação de postagens, eventos, artigos e oportunidades, além de facilitar a interação entre usuários por meio de perfis, comentários e grupos acadêmicos. O sistema será web responsivo, intuitivo e seguro, visando fortalecer a comunicação no ambiente universitário.
+O UniBlog é uma plataforma digital destinada a estudantes, professores e demais membros da comunidade universitária. Seu objetivo é centralizar informações acadêmicas e extracurriculares em um único ambiente, permitindo a publicação de postagens, eventos, artigos e oportunidades, além de facilitar a interação entre usuários por meio de perfis, comentários e grupos acadêmicos. O sistema será responsivo, intuitivo e seguro, visando fortalecer a comunicação no ambiente universitário.
 
 ---
 
@@ -29,9 +29,8 @@ O UniBlog é uma plataforma digital destinada a estudantes, professores e demais
 - Painel administrativo para controle de usuários e postagens.  
 - Notificações internas de interações e novos conteúdos.  
 
-### 2.3 Restrições e premissas
-- O sistema deve rodar em navegadores modernos (Chrome, Firefox, Edge, Safari).  
-- O sistema deve ser responsivo (desktop, tablet e mobile).  
+### 2.3 Restrições e premissas 
+- O sistema deve ser responsivo (tablet e mobile).  
 - O sistema deve estar em conformidade com a **LGPD** (Lei Geral de Proteção de Dados).  
 - O sistema deve utilizar infraestrutura em nuvem para hospedagem.  
 - Escopo inicial limitado às funcionalidades essenciais (cadastro/login, feed, perfis e interações).  
@@ -54,11 +53,10 @@ O UniBlog é uma plataforma digital destinada a estudantes, professores e demais
 - **RF09** – O sistema deve permitir o gerenciamento de eventos e grupos acadêmicos.  
 
 ### 3.2 Requisitos Não Funcionais (RNF)
-- **RNF01** – O sistema deve ter interface responsiva, adaptável a desktop, tablet e mobile.  
-- **RNF02** – O tempo de resposta para carregamento de páginas deve ser inferior a 2 segundos.  
-- **RNF03** – O sistema deve ser compatível com múltiplos navegadores (Chrome, Firefox, Edge, Safari).  
-- **RNF04** – O sistema deve ser compatível com múltiplas plataformas (Windows, Linux, macOS).  
-- **RNF05** – O sistema deve criptografar dados sensíveis (senhas e informações pessoais).  
+- **RNF01** – O sistema deve ter interface responsiva adaptável a tablet e mobile.  
+- **RNF02** – O tempo de resposta para carregamento de páginas deve ser inferior a 2 segundos.   
+- **RNF03** – O sistema deve ser compatível com múltiplas plataformas (Windows, Linux, macOS).  
+- **RNF04** – O sistema deve criptografar dados sensíveis (senhas e informações pessoais).  
 
 ---
 
