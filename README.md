@@ -66,7 +66,7 @@ O UniBlog surge como uma plataforma digital voltada para o ambiente acadêmico, 
 
 <h6 style="color: red;">AULA 04</h6>
 
-**📌 O detalhamento completo dos requisitos pode ser encontrado no [Documento de Requisitos (DR)](https://github.com/luishmattes/UniBlog-Software-Quality/blob/b7fd65e1c8a303e352dbc53d030689555031efe1/Arquivos/Requisitos-UniBlog.md).**
+**📌 O detalhamento completo dos requisitos pode ser encontrado no [Documento de Requisitos (DR)](https://github.com/luishmattes/UniBlog-Software-Quality/blob/d46d64e85f28bff8aeba754d7a98fb3d1665c32e/Arquivos/Requisitos-UniBlog.md).**
 
 
 ### Resumo
@@ -103,15 +103,13 @@ O UniBlog é uma plataforma digital voltada para a comunidade universitária, qu
 
 - Recursos financeiros limitados: orçamento definido para hospedagem, licenças e desenvolvimento.
 
-- Dependência tecnológica: disponibilidade de frameworks web, banco de dados e serviços de hospedagem.
+- Dependência tecnológica: disponibilidade de frameworks, banco de dados e serviços de hospedagem.
 
 - Possível descontinuidade: risco de abandono após a formatura dos integrantes do time.
 
 ### Fora do escopo
 
 - Integração com redes sociais externas (ex.: compartilhamento automático em Instagram, Facebook, LinkedIn).
-
-- Aplicativo mobile nativo (o foco será apenas na versão web responsiva).
 
 - Marketplace ou área de vendas de produtos/serviços.
 
