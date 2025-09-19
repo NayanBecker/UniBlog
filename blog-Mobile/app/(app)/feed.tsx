@@ -1,6 +1,6 @@
 import { useEffect, useState } from "react";
 import { View, Text, FlatList, ActivityIndicator, Image } from "react-native";
-import { api } from "../src/services/api";
+import { api } from "../../src/services/api";
 
 type PostData = {
     id_Post: number;

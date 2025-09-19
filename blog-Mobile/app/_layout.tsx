@@ -1,11 +1,10 @@
 import { Stack } from "expo-router";
 
-export default function Layout() {
+export default function RootLayout() {
     return (
-        <Stack screenOptions={{ headerTitle: "UniBlog" }}>
-            <Stack.Screen name="index" options={{ headerTitle: "Início" }} />
-            <Stack.Screen name="feed" options={{ headerTitle: "Feed" }} />
-            <Stack.Screen name="create-post" options={{ headerTitle: "Novo Post" }} />
+        <Stack screenOptions={{ headerShown: false }}>
+            <Stack.Screen name="(auth)" />
+            <Stack.Screen name="(app)" />
         </Stack>
     );
 }
