@@ -16,7 +16,8 @@
         "foregroundImage": "./assets/images/adaptive-icon.png",
         "backgroundColor": "#ffffff"
       },
-      "edgeToEdgeEnabled": true
+      "edgeToEdgeEnabled": true,
+      "package": "com.nayanbecker.blogmobile"
     },
     "web": {
       "bundler": "metro",
@@ -33,10 +34,22 @@
           "resizeMode": "contain",
           "backgroundColor": "#ffffff"
         }
+      ],
+      [
+        "expo-image-picker",
+        {
+          "photosPermission": "O aplicativo acessa suas fotos para permitir que você as compartilhe com seus amigos."
+        }
       ]
     ],
     "experiments": {
       "typedRoutes": true
+    },
+    "extra": {
+      "router": {},
+      "eas": {
+        "projectId": "aa98cfaa-ebf1-4afe-91db-df8ab820da2c"
+      }
     }
   }
 }

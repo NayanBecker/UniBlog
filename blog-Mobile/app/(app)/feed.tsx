@@ -1,6 +1,7 @@
 import { useEffect, useState } from "react";
 import { View, Text, FlatList, ActivityIndicator, Image } from "react-native";
 import { api } from "../../src/services/api";
+import NavBar from "./navBar";
 
 type PostData = {
     id_Post: number;
@@ -47,7 +48,7 @@ export default function Feed() {
         <View style={{ flex: 1, padding: 16 }}>
             <FlatList
                 data={posts}
-                keyExtractor={(item) => String(item.id_Post)} // 👈 agora usa id_Post
+                keyExtractor={(item) => String(item.id_Post)}
                 renderItem={({ item }) => (
                     <View
                         style={{
@@ -99,7 +100,9 @@ export default function Feed() {
                 ListEmptyComponent={<Text>Nenhum post encontrado.</Text>}
             />
 
-
+            <View>
+                <NavBar />
+            </View>
         </View>
     );
 }

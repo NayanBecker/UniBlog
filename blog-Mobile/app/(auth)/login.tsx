@@ -18,7 +18,7 @@ export default function Login() {
 
             await AsyncStorage.setItem("token", res.data.token);
 
-            router.replace("/feed"); // leva para o feed
+            router.replace("/selectProfile");
         } catch (err: any) {
             console.error(err);
             Alert.alert("Erro", "Falha no login. Verifique seus dados.");
