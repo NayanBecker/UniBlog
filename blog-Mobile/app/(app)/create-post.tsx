@@ -1,6 +1,5 @@
 import { useState } from "react";
-import { View, Text, TextInput, Button, Alert } from "react-native";
-import { api } from "../../src/services/api";
+import { View, Text, TextInput, Button, Alert, ActivityIndicator } from "react-native";
 import { router } from "expo-router";
 import AsyncStorage from "@react-native-async-storage/async-storage";
 import ImagePickerComponent, { FileObject } from "../../src/components/ImageImportComponent";
@@ -9,15 +8,25 @@ export default function CreatePost() {
     const [titlePost, setTitlePost] = useState("");
     const [contentPost, setContentPost] = useState("");
     const [imagePost, setImagePost] = useState<FileObject | null>(null);
+    const [isSubmitting, setIsSubmitting] = useState(false);
 
     async function handleSave() {
-        const token = await AsyncStorage.getItem("token");
-        const idPerfil = await AsyncStorage.getItem("id_perfil");
-        console.log("Token:", token);
-        console.log("ID Perfil:", idPerfil);
-
         try {
+            setIsSubmitting(true);
+            const token = await AsyncStorage.getItem("token");
+            const idPerfil = await AsyncStorage.getItem("id_perfil");
+
+            if (!token || !idPerfil) {
+                Alert.alert("Erro", "Usuário não autenticado ou perfil não selecionado");
+                router.navigate("/(auth)/login");
+                return;
+            }
+
             const formData = new FormData();
+
+            for (const [key, value] of (formData as any).entries()) {
+                console.log("📦 FormData:", key, value);
+            }
 
             if (titlePost) {
                 formData.append("title_Post", titlePost);
@@ -28,35 +37,39 @@ export default function CreatePost() {
             if (imagePost) {
                 formData.append("image_Post", {
                     uri: imagePost.uri,
-                    name: imagePost.name,
-                    type: imagePost.type,
+                    type: imagePost.type || "image/jpeg",
+                    name: imagePost.name || "upload.jpg",
                 } as any);
             }
 
-            console.log("FormData enviado:");
-            console.log("title_Post:", titlePost);
-            console.log("content_Post:", contentPost);
+            try {
+                const response = await fetch(`http://minio.uniblog.cloud:3333/posts/new`, {
+                    method: "POST",
+                    headers: {
+                        Authorization: `Bearer ${token}`,
+                        id_perfil: idPerfil,
+                    },
+                    body: formData,
+                });
 
-            (formData as any)._parts.forEach((p: any) => {
-                console.log("FormData:", p[0], p[1]);
-            });
+                Alert.alert("Sucesso", "Post criado!");
+                router.navigate("/(app)/feed");
+            } catch (e: any) {
+                Alert.alert("Erro", e?.message ?? "Falha ao criar post");
+                console.error("Erro ao criar post:", e?.message ?? e);
+            }
 
-            const response = await api.post("/posts/new", formData, {
-                headers: {
-                    "Content-Type": "multipart/form-data",
-                    "Authorization": `Bearer ${token}`,
-                    "id_perfil": idPerfil,
+            function handleFileSelected(file: FileObject) {
+                setImagePost(file);
+                console.log("Imagem selecionada:", file.uri);
+            }
+        }
 
-                },
-            });
-            console.log("Resposta do servidor:", response.data);
-
-            Alert.alert("Sucesso", "Post criado!");
-
-            router.navigate("/feed");
-        } catch (e: any) {
+        catch (e: any) {
             Alert.alert("Erro", e?.message ?? "Falha ao criar post");
             console.error("Erro ao criar post:", e?.message ?? e);
+        } finally {
+            setIsSubmitting(false);
         }
     }
 
@@ -65,7 +78,6 @@ export default function CreatePost() {
             <View style={{ alignItems: "center", marginTop: 40, marginBottom: 20 }}>
                 <Text style={{ fontSize: 20, fontWeight: "bold" }}>
                     Criar Novo Post</Text>
-
             </View>
             <TextInput
                 placeholder="Título (opcional)"
@@ -82,7 +94,13 @@ export default function CreatePost() {
             />
             <ImagePickerComponent onFileSelected={setImagePost} />
 
-            <Button title="Publicar" onPress={handleSave} />
+            <Button
+                title={isSubmitting ? "Publicando..." : "Publicar"}
+                onPress={handleSave}
+                disabled={isSubmitting}
+            />
+
+            {isSubmitting && <ActivityIndicator style={{ marginTop: 10 }} />}
         </View>
     );
 }

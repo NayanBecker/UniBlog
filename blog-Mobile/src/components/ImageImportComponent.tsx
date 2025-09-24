@@ -25,25 +25,22 @@ export default function ImagePickerComponent({ onFileSelected }: ImagePickerComp
 
             console.log("Resultado do ImagePicker:", result);
 
-            if (!result.canceled && result.assets && result.assets.length > 0) {
+            if (!result.canceled && result.assets?.length > 0) {
                 const asset = result.assets[0];
-
-                const filename = asset.fileName || asset.uri.split("/").pop() || "upload.jpg";
-                const ext = filename.split(".").pop();
-                const type = asset.mimeType || (ext ? `image/${ext}` : "image/jpeg");
-
-                const file: FileObject = {
-                    uri: asset.uri,
-                    name: filename,
-                    type: type,
-                };
-
                 setImageUri(asset.uri);
-                onFileSelected(file); // 🔹 devolve o arquivo pronto
+
+                const fileName = asset.uri.split("/").pop() || "image.jpg";
+                const fileType = fileName.endsWith(".png") ? "image/png" : "image/jpeg";
+
+                onFileSelected({
+                    uri: asset.uri,
+                    name: fileName,
+                    type: fileType,
+                });
             }
         } catch (error) {
-            console.error("Erro ao selecionar imagem:", error);
-            Alert.alert("Erro", "Não foi possível selecionar a imagem");
+            console.log("Erro ao selecionar imagem:", error);
+            Alert.alert("Erro", "Falha ao selecionar imagem");
         }
     };
 
@@ -53,9 +50,7 @@ export default function ImagePickerComponent({ onFileSelected }: ImagePickerComp
                 title={imageUri ? "Imagem selecionada" : "Selecionar imagem"}
                 onPress={handlePickImage}
             />
-            {imageUri ? (
-                <Image source={{ uri: imageUri }} style={styles.imagePreview} />
-            ) : null}
+            {imageUri && <Image source={{ uri: imageUri }} style={styles.imagePreview} />}
         </View>
     );
 }

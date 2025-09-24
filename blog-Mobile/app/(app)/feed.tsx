@@ -1,7 +1,7 @@
 import { useEffect, useState } from "react";
 import { View, Text, FlatList, ActivityIndicator, Image } from "react-native";
 import { api } from "../../src/services/api";
-import NavBar from "./navBar";
+import NavBar from "../../src/components/navBarComponent";
 
 type PostData = {
     id_Post: number;
@@ -86,7 +86,7 @@ export default function Feed() {
                         {item.image_Post ? (
                             <Image
                                 source={{ uri: item.image_Post }}
-                                style={{ width: "100%", height: 200, borderRadius: 8 }}
+                                style={{ width: "100%", height: 600, borderRadius: 8 }}
                                 resizeMode="cover"
                             />
                         ) : null}
