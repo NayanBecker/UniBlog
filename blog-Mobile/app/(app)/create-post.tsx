@@ -3,6 +3,7 @@ import { View, Text, TextInput, Button, Alert, ActivityIndicator } from "react-n
 import { router } from "expo-router";
 import AsyncStorage from "@react-native-async-storage/async-storage";
 import ImagePickerComponent, { FileObject } from "../../src/components/ImageImportComponent";
+import { url } from "@/src/services/api";
 
 export default function CreatePost() {
     const [titlePost, setTitlePost] = useState("");
@@ -43,7 +44,7 @@ export default function CreatePost() {
             }
 
             try {
-                const response = await fetch(`http://minio.uniblog.cloud:3333/posts/new`, {
+                const response = await fetch(`${url}/posts/new`, {
                     method: "POST",
                     headers: {
                         Authorization: `Bearer ${token}`,
@@ -51,7 +52,10 @@ export default function CreatePost() {
                     },
                     body: formData,
                 });
-
+                if (!response.ok) {
+                    const errorData = await response.json();
+                    throw new Error(errorData.message || "Erro ao criar post");
+                }
                 Alert.alert("Sucesso", "Post criado!");
                 router.navigate("/(app)/feed");
             } catch (e: any) {
