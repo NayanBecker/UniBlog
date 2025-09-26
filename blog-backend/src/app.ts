@@ -17,7 +17,11 @@ app.register(cors, {
 app.register(jwt, {
   secret: process.env.JWT_SECRET || 'uniblog-secret',
 });
-app.register(fastifyMultipart);
+app.register(fastifyMultipart, {
+  limits: {
+    fileSize: 20 * 1024 * 1024,
+  },
+});
 
 // Rotas
 app.register(authRoutes, { prefix: '/account' });

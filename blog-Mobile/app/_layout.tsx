@@ -1,11 +1,20 @@
-import { Stack } from "expo-router";
+import { useFonts } from "@/src/utils/fonts";
+import { Stack, Slot } from "expo-router";
+import { View } from 'react-native';
 
-export default function Layout() {
+export default function RootLayout() {
+    const fontsLoaded = useFonts();
+
+
+    if (!fontsLoaded) {
+        return <View />;
+    }
     return (
-        <Stack screenOptions={{ headerTitle: "UniBlog" }}>
-            <Stack.Screen name="index" options={{ headerTitle: "Início" }} />
-            <Stack.Screen name="feed" options={{ headerTitle: "Feed" }} />
-            <Stack.Screen name="create-post" options={{ headerTitle: "Novo Post" }} />
+        <Stack screenOptions={{ headerShown: false }}>
+            <Slot />
+
+            <Stack.Screen name="(auth)" />
+            <Stack.Screen name="(app)" />
         </Stack>
     );
 }
