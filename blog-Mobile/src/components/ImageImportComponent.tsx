@@ -46,16 +46,52 @@ export default function ImagePickerComponent({ onFileSelected }: ImagePickerComp
 
     return (
         <View style={styles.container}>
-            <Button
-                title={imageUri ? "Imagem selecionada" : "Selecionar imagem"}
-                onPress={handlePickImage}
-            />
-            {imageUri && <Image source={{ uri: imageUri }} style={styles.imagePreview} />}
+            {!imageUri ? (
+                <View style={{ overflow: "hidden", borderRadius: 16 }}>
+                    <Button
+                        title={"Selecionar Momento"}
+                        onPress={handlePickImage}
+                        color={"#7AC8F6"}
+
+                    />
+                </View>
+            ) : (
+                <View style={styles.containerImage}>
+                    {imageUri && <Image source={{ uri: imageUri }} style={styles.imagePreview} />}
+
+                    <View style={{ flexDirection: "row", justifyContent: "space-around", marginVertical: 10 }}>
+                        <Button
+                            title={"Cancelar"}
+                            onPress={() => {
+                                setImageUri("");
+                            }}
+                        />
+                        <Button
+                            title={"Selecionar"}
+                            onPress={handlePickImage}
+                        />
+                    </View>
+
+                </View>
+
+            )
+            }
         </View>
     );
 }
 
 const styles = StyleSheet.create({
-    container: { marginVertical: 12, alignItems: "center" },
-    imagePreview: { width: 150, height: 150, marginTop: 12, borderRadius: 8 },
+    container: {
+        paddingTop: 20,
+    },
+
+    imagePreview: {
+        width: 320,
+        height: 310,
+        borderRadius: 16,
+        alignSelf: "center",
+    },
+    containerImage: {
+
+    }
 });

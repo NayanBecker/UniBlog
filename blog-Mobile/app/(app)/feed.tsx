@@ -1,9 +1,12 @@
 import { useEffect, useState } from "react";
-import { View, Text, FlatList, ActivityIndicator, Image, StyleSheet } from "react-native";
+import { View, Text, FlatList, ActivityIndicator, Image, StyleSheet, TouchableOpacity } from "react-native";
 import { api } from "../../src/services/api";
 import NavBar from "../../src/components/navBarComponent";
 import { formatTimeAgo } from "@/src/constants/calculateTimeAgo";
 import { ImageProfileComponent } from "@/src/components/ImageProfileComponent";
+import Ionicons from "@expo/vector-icons/build/Ionicons";
+import { useRouter } from "expo-router";
+
 
 
 type PostData = {
@@ -29,6 +32,8 @@ type PostData = {
 export default function Feed() {
     const [posts, setPosts] = useState<PostData[]>([]);
     const [loading, setLoading] = useState(true);
+    const router = useRouter();
+
     useEffect(() => {
         async function loadFeed() {
             try {
@@ -69,12 +74,12 @@ export default function Feed() {
                             )}
 
 
-                            {/* Conteúdo do post */}
+                            {/* Conteudo do post */}
                             {item.content_Post && (
                                 <Text style={styles.contentText}>{item.content_Post}</Text>
                             )}
 
-                            {/* Imagem do post (opcional) */}
+                            {/* Imagem do post */}
                             {item.image_Post && (
                                 <Image
                                     source={{ uri: item.image_Post }}
@@ -99,12 +104,23 @@ export default function Feed() {
                 )}
                 ListEmptyComponent={<Text style={styles.emptyText}>Nenhum post encontrado.</Text>}
             />
+            <View style={styles.PostPopUp}>
+                <TouchableOpacity onPress={() => router.push("/(app)/create-post")}>
+                    <Ionicons name="add-circle" size={70} color="#0378BD" />
+                </TouchableOpacity>
+            </View>
+
             <NavBar />
         </View>
     );
 }
 
 const styles = StyleSheet.create({
+    PostPopUp: {
+        position: 'absolute',
+        bottom: 80,
+        right: 5,
+    },
     loadingContainer: {
         flex: 1,
         alignItems: "center",
