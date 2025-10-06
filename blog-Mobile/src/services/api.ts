@@ -6,6 +6,7 @@ import { router } from "expo-router";
 const LOCAL_BASE =
     Platform.OS === "android" ? "http://192.168.3.9:3333" : "http://192.168.3.9:3333";
 
+export const url = LOCAL_BASE;
 
 export const api = axios.create({
     baseURL: LOCAL_BASE,
@@ -18,8 +19,6 @@ api.interceptors.request.use(async (config) => {
     if (token) {
         config.headers.Authorization = `Bearer ${token}`;
     }
-
-    //const token = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZF9BY2NvdW50IjoxNCwiaWF0IjoxNzU3NDU5NTk5LCJleHAiOjE3NTgwNjQzOTl9.VA2I7oDRFaaeN_6K48lSl7pA8q7IzqxoZJf6RfnmJXM'
     return config;
 });
 
