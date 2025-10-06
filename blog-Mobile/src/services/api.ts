@@ -4,7 +4,7 @@ import AsyncStorage from "@react-native-async-storage/async-storage";
 import { router } from "expo-router";
 
 const LOCAL_BASE =
-    Platform.OS === "android" ? "http://minio.uniblog.cloud:3333" : "http://minio.uniblog.cloud:3333";
+    Platform.OS === "android" ? "http://192.168.3.9:3333" : "http://192.168.3.9:3333";
 
 
 export const api = axios.create({

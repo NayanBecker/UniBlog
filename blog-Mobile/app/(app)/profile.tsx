@@ -1,134 +1,359 @@
 import { useEffect, useState } from "react";
-import { View, Text, ActivityIndicator, StyleSheet } from "react-native";
+import {
+    View,
+    Text,
+    ActivityIndicator,
+    StyleSheet,
+    ScrollView,
+    Image
+} from "react-native";
 import AsyncStorage from "@react-native-async-storage/async-storage";
 import NavBar from "../../src/components/navBarComponent";
 import { ImageProfileComponent } from "@/src/components/ImageProfileComponent";
+import { SettingsButton } from "@/src/components/SettingsButton";
 
 type ProfileData = {
-  id_Perfil: number;
-  nome_Perfil: string;
-  email_Perfil: string;
-  descricao_Perfil: string | null;
-  foto_Perfil: string | null;
-  tipo_Perfil: "PESSOAL" | "EMPRESARIAL" | string;
-  semestre_Perfil: number;
-  curso: {
-    id_Curso: number;
-    nome_Curso: string;
-  };
-
-  //📊 Exibir estatísticas simples (Número de posts, curtidas recebidas).
-
+    id_Perfil: number;
+    nome_Perfil: string;
+    email_Perfil: string;
+    descricao_Perfil: string | null;
+    foto_Perfil: string | null;
+    tipo_Perfil: "PESSOAL" | "EMPRESARIAL" | string;
+    semestre_Perfil: number;
+    curso: {
+        id_Curso: number;
+        nome_Curso: string;
+    };
 };
 
-export default function Profile() {
-  const [profile, setProfile] = useState<ProfileData | null>(null);
-  const [loading, setLoading] = useState(true);
+type PostData = {
+    id_Post: number;
+    title_Post?: string | null;
+    content_Post?: string | null;
+    image_Post?: string | null;
+    createdAt_Post: string;
+    T_Perfil: {
+        id_Perfil: number;
+        nome_Perfil: string;
+        foto_Perfil: string | null;
+    };
+    T_PostInteracaoCapa: {
+        id_PIC: number;
+        visualizacao_PIC: any[];
+        curtidas_PIC: any[];
+        comentarios_PIC: any[];
+    };
+};
 
-  useEffect(() => {
-    async function fetchProfile() {
-      try {
-        const token = await AsyncStorage.getItem("token");
-        if (!token) {
-          console.warn("Nenhum token encontrado.");
-          return;
+export default function ProfileScreen() {
+    const [profile, setProfile] = useState<ProfileData | null>(null);
+    const [posts, setPosts] = useState<PostData[]>([]);
+    const [loading, setLoading] = useState(true);
+    const [postsLoading, setPostsLoading] = useState(false);
+
+    useEffect(() => {
+        async function fetchProfileAndPosts() {
+            try {
+                const token = await AsyncStorage.getItem("token");
+                const idPerfil = await AsyncStorage.getItem("id_perfil");
+
+                if (!token || !idPerfil) {
+                    console.warn("Nenhum token ou id_perfil encontrado.");
+                    return;
+                }
+
+                // Perfil
+                const response = await fetch("http://192.168.3.9:3333/profile/get", {
+                    method: "GET",
+                    headers: {
+                        id_Perfil: idPerfil,
+                        Authorization: `Bearer ${token}`,
+                        "Content-Type": "application/json",
+                    },
+                });
+
+                if (!response.ok) {
+                    console.error("Erro ao buscar perfil:", response.status);
+                    return;
+                }
+
+                const data: ProfileData = await response.json();
+                setProfile(data);
+
+                // Buscar os posts do perfil carregado
+                await fetchUserPosts(data.id_Perfil);
+
+                // Posts do usuário
+                await fetchUserPosts(Number(idPerfil));
+            } catch (error) {
+                console.error("Erro ao buscar perfil e posts:", error);
+            } finally {
+                setLoading(false);
+            }
         }
 
-        const response = await fetch("http://192.168.3.9:3333/profile/get", {
-          method: "GET",
-          headers: {
-            id_Perfil: (await AsyncStorage.getItem("id_perfil")) || "",
-            Authorization: `Bearer ${token}`,
-            "Content-Type": "application/json",
-          },
-        });
+        fetchProfileAndPosts();
+    }, []);
 
-        if (!response.ok) {
-          console.error("Erro ao buscar perfil:", response.status);
-          return;
+    const fetchUserPosts = async (userId: number) => {
+        try {
+            setPostsLoading(true);
+            const token = await AsyncStorage.getItem("token");
+
+            const response = await fetch("http://192.168.3.9:3333/posts/get", {
+                method: "GET",
+                headers: {
+                    id_Perfil: String(userId),
+                    Authorization: `Bearer ${token}`,
+                    "Content-Type": "application/json",
+                },
+            });
+
+            if (response.ok) {
+                const postsData: PostData[] = await response.json();
+                setPosts(postsData);
+            } else {
+                console.error("Erro ao buscar posts:", response.status);
+            }
+        } catch (error) {
+            console.error("Erro ao buscar posts:", error);
+        } finally {
+            setPostsLoading(false);
         }
+    };
 
-        const data: ProfileData = await response.json();
-        setProfile(data);
-      } catch (error) {
-        console.error("Erro no fetch do perfil:", error);
-      } finally {
-        setLoading(false);
-      }
+    const PostCard = ({ post }: { post: PostData }) => {
+        const curtidas = post.T_PostInteracaoCapa?.curtidas_PIC?.length ?? 0;
+        const comentarios = post.T_PostInteracaoCapa?.comentarios_PIC?.length ?? 0;
+
+        return (
+            <View style={styles.postContainer}>
+
+                {/* Card do post */}
+                <View style={styles.card}>
+
+                    {/* Título do post */}
+                    <Text style={styles.postTitle}>{post.title_Post || "Sem título"}</Text>
+
+                    {/* Conteúdo do post */}
+                    <Text style={styles.contentText}>{post.content_Post || ""}</Text>
+
+                    {/* Imagem do post (se existir) */}
+                    {post.image_Post && (
+                        <Image
+                            source={{ uri: post.image_Post }}
+                            style={styles.postImage}
+                            resizeMode="cover"
+                        />
+                    )}
+                    {/* Nome do autor */}
+                    <Text style={styles.authorText}>{post.T_Perfil.nome_Perfil}</Text>
+                </View>
+            </View>
+        );
+    };
+
+    if (loading) {
+        return (
+            <View style={styles.container}>
+                <ActivityIndicator size="large" color="#FFFFFF" />
+            </View>
+        );
     }
 
-    fetchProfile();
-  }, []);
+    if (!profile) {
+        return (
+            <View style={styles.container}>
+                <Text style={styles.title}>Erro ao carregar perfil</Text>
+            </View>
+        );
+    }
 
-  if (loading) {
     return (
-      <View style={styles.center}>
-        <ActivityIndicator size="large" />
-      </View>
-    );
-  }
+        <View style={{ flex: 1 }}>
+            {/* Engrenagem de configurações */}
+            <SettingsButton />
+            <ScrollView style={styles.scrollContainer} showsVerticalScrollIndicator={false}>
 
-  if (!profile) {
-    return (
-      <View style={styles.center}>
-        <Text>Erro ao carregar perfil</Text>
-      </View>
-    );
-  }
+                {/* Header com dados do perfil */}
+                <View style={styles.header}>
+                    <ImageProfileComponent
+                        name={profile.nome_Perfil}
+                        photoUrl={profile.foto_Perfil && profile.foto_Perfil.trim() !== "" ? profile.foto_Perfil : null}
+                        size={130}
+                    />
+                </View>
 
-  return (
-    <View style={{ flex: 1 }}>
-      <View style={styles.container}>
-        <View style={styles.profileImageContainer}>
-          <ImageProfileComponent
-            name={profile.nome_Perfil}
-            photoUrl={profile.foto_Perfil}
-            size={150}
-          />
+
+                {/* Seção de posts */}
+                <View style={styles.postsSection}>
+                    <View style={styles.header}>
+                        <Text style={styles.title}>{profile.nome_Perfil}</Text>
+                        <Text style={styles.subtitle}>{profile.email_Perfil}</Text>
+                        <View />
+                        {/* Seção de Bio */}
+                        <View style={styles.bioCard}>
+                            <Text style={styles.bioTitle}>Biografia</Text>
+                            <Text style={styles.bioText}>
+                                {profile.curso?.nome_Curso} · {profile.semestre_Perfil}º semestre
+                            </Text>
+                            <Text style={styles.bioText}>
+                                {profile.descricao_Perfil || "Sem descrição ainda..."}
+                            </Text>
+                        </View>
+
+
+                    </View>
+                    <Text style={styles.sectionTitle}>Posts</Text>
+                    {postsLoading ? (
+                        <ActivityIndicator size="small" color="#23A7F5" />
+                    ) : posts.length > 0 ? (
+                        posts.map((post) => <PostCard key={post.id_Post} post={post} />)
+                    ) : (
+                        <Text style={styles.noPosts}>Nenhum post publicado ainda</Text>
+                    )}
+                </View>
+            </ScrollView>
+
+            <NavBar />
         </View>
-        <View style={styles.profileContentContainer}>
-        <Text style={styles.name}>{profile.nome_Perfil}</Text>
-        <Text style={styles.email}>{profile.email_Perfil}</Text>
-        <Text style={styles.description}>{profile.descricao_Perfil}</Text>
-        <Text style={styles.course}>
-          Curso: {profile.curso?.nome_Curso} - Semestre {profile.semestre_Perfil}
-        </Text>
-        </View>
-      </View>
-
-      <NavBar />
-    </View>
-  );
+    );
 }
 
 const styles = StyleSheet.create({
-  center: { flex: 1, justifyContent: "center", alignItems: "center" },
-  container: {
-    flex: 1,
-    justifyContent: "center",
-    alignItems: "center",
-    padding: 20,
-    backgroundColor: "#23A7F5",
-  },
+    container: {
+        flex: 1,
+        justifyContent: 'center',
+        alignItems: 'center',
+        backgroundColor: '#23A7F5',
+    },
+    profileImage: {
+        position: 'absolute',
+        top: 20,
+        alignSelf: 'center',
+        zIndex: 10,
+    },
+    title: {
+        fontSize: 40,
+        fontFamily: 'Khula-Regular',
+        fontWeight: 'bold',
+        color: '#495364',
+        marginBottom: 1,
+    },
+    subtitle: {
+        fontSize: 14,
+        fontFamily: 'Montserrat',
+        color: '#818181',
+        textAlign: 'center',
+        paddingHorizontal: 10,
+        marginBottom: 2,
+    },
+    bioCard: {
+        backgroundColor: "#FFFFFF",
+        borderRadius: 15,
+        padding: 16,
+        marginVertical: 2,
+        shadowColor: "#000",
+        shadowOffset: {
+            width: 0,
+            height: 4,
+        },
+        shadowOpacity: 0.5,
+        shadowRadius: 5,
+        elevation: 5,
+    },
+    bioTitle: {
+        fontSize: 18,
+        fontWeight: "bold",
+        color: "#495364",
+        fontFamily: 'Montserrat',
+        marginBottom: 4,
+    },
+    bioText: {
+        fontSize: 14,
+        color: "#495364",
+        fontFamily: 'Montserrat',
+        marginBottom: 2,
+    },
 
-  profileImageContainer: {
-    position: "absolute",
-    top: 65,
-    zIndex: 1,
-  },
+    scrollContainer: {
+        flex: 1,
+        backgroundColor: "#23A7F5"
+    },
+    header: {
+        alignItems: "center",
+        padding: 20,
+        paddingTop: 60,
+        paddingBottom: 10,
+    },
+    postsSection: {
+        padding: 20,
+        backgroundColor: "#E7F7FF",
+        borderRadius: 15,
+        margin: 15,
+    },
+    sectionTitle: {
+        fontSize: 16,
+        fontWeight: "bold",
+        marginBottom: 15,
+        color: "#0378BD",
+        textAlign: 'center',
+        fontFamily: 'Montserrat',
+    },
 
-  profileContentContainer: {
-    marginTop: 15,
-    width: "100%",
-    padding: 120,
-    borderRadius: 15,
-    shadowColor: "#000",
-    alignItems: "center",
-    backgroundColor: "#E7F7FF",
-  },
+    // Estilos do PostCard
+    postContainer: {
+        marginBottom: 20,
+    },
+    card: {
+        backgroundColor: "#FFFFFF",
+        borderRadius: 16,
+        padding: 10,
+        paddingTop: 26,
+        shadowColor: "#000",
+        shadowOffset: {
+            width: 0,
+            height: 4,
+        },
+        shadowOpacity: 0.1,
+        shadowRadius: 5,
+        elevation: 5,
+    },
+    postTitle: {
+        fontWeight: "bold",
+        fontSize: 22,
+        marginLeft: 18,
+        marginBottom: 8,
+        color: '#212121',
+        fontFamily: 'Khula-Regular',
+    },
+    authorText: {
+        fontWeight: "bold",
+        fontSize: 14,
+        marginLeft: 18,
+        marginBottom: 4,
+        color: "#495364",
+        fontFamily: 'Montserrat-Regular',
+    },
+    contentText: {
+        fontSize: 14,
+        lineHeight: 24,
+        marginBottom: 12,
+        marginLeft: 21,
+        fontFamily: 'Montserrat-Regular',
+        color: '#000000',
+    },
+    postImage: {
+        width: "100%",
+        height: 200,
+        borderRadius: 8,
+        marginBottom: 12,
+    },
 
-  name: { fontSize: 20, fontWeight: "bold", marginTop: 170 },
-  email: { fontSize: 14, color: "#555", marginTop: 4 },
-  description: { marginTop: 10, textAlign: "center", color: "#444" },
-  course: { marginTop: 10, fontSize: 14, fontStyle: "italic" },
+    noPosts: {
+        textAlign: 'center',
+        color: '#888',
+        fontSize: 16,
+        marginTop: 20,
+    }
 });

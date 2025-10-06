@@ -13,9 +13,9 @@ export default function Login() {
         try {
             const res = await api.post("/account/login", {
                 // email_Account: email,
-                email_Account: "nayan@unochapeco.edu.br",
+                email_Account: email,
                 // password_Account: password,
-                password_Account: "123123",
+                password_Account: password,
             });
 
             await AsyncStorage.setItem("token", res.data.token);
