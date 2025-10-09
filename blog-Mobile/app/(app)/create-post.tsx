@@ -1,11 +1,10 @@
 import { useState } from "react";
-import { View, Text, TextInput, Button, Alert, ActivityIndicator, StyleSheet, TouchableOpacity } from "react-native";
+import { View, TextInput, Button, Alert, ActivityIndicator, StyleSheet, TouchableOpacity } from "react-native";
 import { router } from "expo-router";
 import AsyncStorage from "@react-native-async-storage/async-storage";
 import ImagePickerComponent, { FileObject } from "../../src/components/ImageImportComponent";
 import { url } from "@/src/services/api";
 import Ionicons from "@expo/vector-icons/build/Ionicons";
-import CloseIcon from "../../assets/images/Close-Create-Post-Icon.svg";
 
 export default function CreatePost() {
     const [titlePost, setTitlePost] = useState("");
