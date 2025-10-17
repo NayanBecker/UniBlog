@@ -33,14 +33,12 @@ export default function CourseSelector({ onSelect }: { onSelect: (id: number) =>
 
     return (
         <View style={styles.container}>
-            {/* Botão que abre/fecha a lista */}
             <TouchableOpacity style={styles.dropdownButton} onPress={() => setIsOpen(!isOpen)}>
                 <Text style={styles.dropdownText}>
                     {selectedCourse ? selectedCourse.nome_Curso : "Selecione seu curso"}
                 </Text>
             </TouchableOpacity>
 
-            {/* Lista de cursos (mostra apenas quando aberta) */}
             {isOpen && (
                 <View style={styles.dropdownList}>
                     <FlatList
