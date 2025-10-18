@@ -1,14 +1,6 @@
 import { api } from "@/src/services/api";
 import { useEffect, useState } from "react";
-import {
-    View,
-    Text,
-    ActivityIndicator,
-    StyleSheet,
-    ScrollView,
-    Image,
-    TouchableOpacity
-} from "react-native";
+import { View, Text, ActivityIndicator, StyleSheet, ScrollView, Image, TouchableOpacity } from "react-native";
 import AsyncStorage from "@react-native-async-storage/async-storage";
 import NavBar from "../../src/components/navBarComponent";
 import { ImageProfileComponent } from "@/src/components/ImageProfileComponent";
@@ -157,27 +149,27 @@ export default function ProfileScreen() {
     }
 
     if (!profile) {
-    return (
-        <View style={styles.container}>
-            <Text style={styles.title}>Erro ao carregar perfil</Text>
+        return (
+            <View style={styles.container}>
+                <Text style={styles.title}>Erro ao carregar perfil</Text>
 
-            <TouchableOpacity
-                style={{
-                    marginTop: 20,
-                    backgroundColor: "#e53935",
-                    paddingVertical: 10,
-                    paddingHorizontal: 20,
-                    borderRadius: 8,
-                }}
-                onPress={logout} // 👈 chama a função do utils/logout.ts
-            >
-                <Text style={{ color: "#fff", fontWeight: "bold", fontSize: 16 }}>
-                    Fazer logout
-                </Text>
-            </TouchableOpacity>
-        </View>
-    );
-}
+                <TouchableOpacity
+                    style={{
+                        marginTop: 20,
+                        backgroundColor: "#e53935",
+                        paddingVertical: 10,
+                        paddingHorizontal: 20,
+                        borderRadius: 8,
+                    }}
+                    onPress={logout} // 👈 chama a função do utils/logout.ts
+                >
+                    <Text style={{ color: "#fff", fontWeight: "bold", fontSize: 16 }}>
+                        Fazer logout
+                    </Text>
+                </TouchableOpacity>
+            </View>
+        );
+    }
 
 
     return (

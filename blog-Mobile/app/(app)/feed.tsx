@@ -1,7 +1,7 @@
-import { useEffect, useState } from "react";
-import { View, Text, FlatList, ActivityIndicator, Image, StyleSheet, TouchableOpacity } from "react-native";
 import { api } from "../../src/services/api";
 import NavBar from "../../src/components/navBarComponent";
+import { useEffect, useState } from "react";
+import { View, Text, FlatList, ActivityIndicator, Image, StyleSheet, TouchableOpacity } from "react-native";
 import { formatTimeAgo } from "@/src/constants/calculateTimeAgo";
 import { ImageProfileComponent } from "@/src/components/ImageProfileComponent";
 import Ionicons from "@expo/vector-icons/build/Ionicons";
