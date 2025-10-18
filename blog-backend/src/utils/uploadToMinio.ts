@@ -10,6 +10,6 @@ export async function uploadToMinio(file: Buffer, originalName: string): Promise
 
     await minioClient.putObject(bucket, fileName, file);
 
-    const minioUrl = `http://minio.uniblog.cloud:9000/${bucket}/${fileName}`;
+    const minioUrl = `http://192.168.3.9:9000/${bucket}/${fileName}`; 
     return minioUrl;
 }

@@ -1,3 +1,4 @@
+import { api } from "@/src/services/api";
 import { useEffect, useState } from "react";
 import {
     View,
@@ -11,6 +12,7 @@ import AsyncStorage from "@react-native-async-storage/async-storage";
 import NavBar from "../../src/components/navBarComponent";
 import { ImageProfileComponent } from "@/src/components/ImageProfileComponent";
 import { SettingsButton } from "@/src/components/SettingsButton";
+import { EditProfileButton } from "@/src/components/EditProfileButton";
 
 type ProfileData = {
     id_Perfil: number;
@@ -63,8 +65,7 @@ export default function ProfileScreen() {
                 }
 
                 // Perfil
-                const response = await fetch("http://192.168.3.9:3333/profile/get", {
-                    method: "GET",
+                const response = await api.get("/profile/get", {
                     headers: {
                         id_Perfil: idPerfil,
                         Authorization: `Bearer ${token}`,
@@ -72,12 +73,7 @@ export default function ProfileScreen() {
                     },
                 });
 
-                if (!response.ok) {
-                    console.error("Erro ao buscar perfil:", response.status);
-                    return;
-                }
-
-                const data: ProfileData = await response.json();
+                const data: ProfileData = response.data;
                 setProfile(data);
 
                 // Buscar os posts do perfil carregado
@@ -100,8 +96,7 @@ export default function ProfileScreen() {
             setPostsLoading(true);
             const token = await AsyncStorage.getItem("token");
 
-            const response = await fetch("http://192.168.3.9:3333/posts/get", {
-                method: "GET",
+            const response = await api.get("/posts/get", {
                 headers: {
                     id_Perfil: String(userId),
                     Authorization: `Bearer ${token}`,
@@ -109,18 +104,15 @@ export default function ProfileScreen() {
                 },
             });
 
-            if (response.ok) {
-                const postsData: PostData[] = await response.json();
-                setPosts(postsData);
-            } else {
-                console.error("Erro ao buscar posts:", response.status);
-            }
+            const postsData: PostData[] = response.data;
+            setPosts(postsData);
         } catch (error) {
             console.error("Erro ao buscar posts:", error);
         } finally {
             setPostsLoading(false);
         }
     };
+
 
     const PostCard = ({ post }: { post: PostData }) => {
         const curtidas = post.T_PostInteracaoCapa?.curtidas_PIC?.length ?? 0;
@@ -172,9 +164,9 @@ export default function ProfileScreen() {
     return (
         <View style={{ flex: 1 }}>
             {/* Engrenagem de configurações */}
+
             <SettingsButton />
             <ScrollView style={styles.scrollContainer} showsVerticalScrollIndicator={false}>
-
                 {/* Header com dados do perfil */}
                 <View style={styles.header}>
                     <ImageProfileComponent
@@ -184,27 +176,34 @@ export default function ProfileScreen() {
                     />
                 </View>
 
-
-                {/* Seção de posts */}
+                {/* Seção principal do perfil */}
                 <View style={styles.postsSection}>
-                    <View style={styles.header}>
-                        <Text style={styles.title}>{profile.nome_Perfil}</Text>
-                        <Text style={styles.subtitle}>{profile.email_Perfil}</Text>
-                        <View />
-                        {/* Seção de Bio */}
-                        <View style={styles.bioCard}>
-                            <Text style={styles.bioTitle}>Biografia</Text>
-                            <Text style={styles.bioText}>
-                                {profile.curso?.nome_Curso} · {profile.semestre_Perfil}º semestre
-                            </Text>
-                            <Text style={styles.bioText}>
-                                {profile.descricao_Perfil || "Sem descrição ainda..."}
-                            </Text>
-                        </View>
+                    <EditProfileButton
+                        profile={profile}
+                        onProfileUpdated={() => fetchUserPosts(profile.id_Perfil)}
+                    />
 
 
+
+                    {/* Nome e email do perfil */}
+                    <Text style={styles.title}>{profile.nome_Perfil}</Text>
+                    <Text style={styles.subtitle}>{profile.email_Perfil}</Text>
+
+                    {/* Card de Biografia */}
+                    <View style={styles.bioCard}>
+                        <Text style={styles.bioTitle}>Biografia</Text>
+                        <Text style={styles.bioText}>
+                            {profile.curso?.nome_Curso} · {profile.semestre_Perfil}º semestre
+                        </Text>
+                        <Text style={styles.bioText}>
+                            {profile.descricao_Perfil || "Sem descrição ainda..."}
+                        </Text>
                     </View>
+
+                    {/* Título da seção de posts */}
                     <Text style={styles.sectionTitle}>Posts</Text>
+
+                    {/* Lista de posts */}
                     {postsLoading ? (
                         <ActivityIndicator size="small" color="#23A7F5" />
                     ) : posts.length > 0 ? (
@@ -216,6 +215,7 @@ export default function ProfileScreen() {
             </ScrollView>
 
             <NavBar />
+
         </View>
     );
 }
@@ -234,33 +234,35 @@ const styles = StyleSheet.create({
         zIndex: 10,
     },
     title: {
+        alignSelf: 'center',
         fontSize: 40,
         fontFamily: 'Khula-Regular',
         fontWeight: 'bold',
         color: '#495364',
-        marginBottom: 1,
     },
     subtitle: {
         fontSize: 14,
         fontFamily: 'Montserrat',
         color: '#818181',
         textAlign: 'center',
-        paddingHorizontal: 10,
-        marginBottom: 2,
+        marginBottom: 4,
     },
     bioCard: {
+        marginTop: 15,
+        marginBottom: 20,
+        alignSelf: "center",
+        width: "100%",
         backgroundColor: "#FFFFFF",
         borderRadius: 15,
-        padding: 16,
-        marginVertical: 2,
+        padding: 15,
         shadowColor: "#000",
         shadowOffset: {
             width: 0,
-            height: 4,
+            height: 2,
         },
         shadowOpacity: 0.5,
         shadowRadius: 5,
-        elevation: 5,
+        elevation: 3,
     },
     bioTitle: {
         fontSize: 18,

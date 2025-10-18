@@ -18,7 +18,7 @@ export default function SelectProfile() {
     useEffect(() => {
         async function fetchProfiles() {
             try {
-                const res = await api.get("/profile/");
+                const res = await api.get("/profile/get/AccountProfiles");
                 setProfiles(res.data);
             } catch (err: any) {
                 console.log("Erro ao carregar perfis:", err.message);
@@ -32,7 +32,7 @@ export default function SelectProfile() {
 
     const handleSelect = async (profile: ProfileData) => {
         try {
-            await AsyncStorage.setItem("id_perfil", String(profile.id_Perfil));
+            await AsyncStorage.setItem("id_Perfil", String(profile.id_Perfil));
             console.log("Perfil selecionado:", profile.id_Perfil);
 
             router.replace("/(app)/feed");

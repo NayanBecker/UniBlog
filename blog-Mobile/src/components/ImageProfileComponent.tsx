@@ -1,16 +1,21 @@
 import React from "react";
-import { View, Image, Text, StyleSheet } from "react-native";
+import { View, Image, Text, StyleSheet, TouchableOpacity, Alert } from "react-native";
+import * as ImagePicker from "expo-image-picker";
 
 interface ImageProfileComponentProps {
   name: string | undefined;
   photoUrl?: string | null;
-  size?: number; 
+  size?: number;
+  editable?: boolean; 
+  onPhotoChange?: (uri: string) => void; 
 }
 
 export function ImageProfileComponent({
   name,
   photoUrl,
   size = 50,
+  editable = false,
+  onPhotoChange,
 }: ImageProfileComponentProps) {
   const initial = name?.charAt(0).toUpperCase() || "?";
   const borderRadius = size / 2;
@@ -22,8 +27,36 @@ export function ImageProfileComponent({
       ? photoUrl
       : null;
 
+  // 📸 Função para escolher nova imagem
+  async function handlePickImage() {
+    try {
+      const permission = await ImagePicker.requestMediaLibraryPermissionsAsync();
+      if (!permission.granted) {
+        Alert.alert("Permissão necessária", "Permita o acesso às fotos para escolher uma imagem.");
+        return;
+      }
+
+      const result = await ImagePicker.launchImageLibraryAsync({
+        mediaTypes: ImagePicker.MediaTypeOptions.Images,
+        allowsEditing: true,
+        aspect: [1, 1],
+        quality: 0.8,
+      });
+
+      if (!result.canceled && result.assets.length > 0) {
+        const uri = result.assets[0].uri;
+        onPhotoChange?.(uri); 
+      }
+    } catch (error) {
+      console.error("Erro ao escolher imagem:", error);
+    }
+  }
+
+  const ImageContainer = editable ? TouchableOpacity : View;
+
   return (
-    <View
+    <ImageContainer
+      onPress={editable ? handlePickImage : undefined}
       style={[
         styles.container,
         {
@@ -63,7 +96,13 @@ export function ImageProfileComponent({
           </Text>
         </View>
       )}
-    </View>
+
+      {editable && (
+        <View style={styles.editBadge}>
+          <Text style={{ color: "#fff", fontSize: 10 }}>Editar</Text>
+        </View>
+      )}
+    </ImageContainer>
   );
 }
 
@@ -90,5 +129,13 @@ const styles = StyleSheet.create({
   initialsText: {
     color: "#23A7F5",
     fontWeight: "bold",
+  },
+  editBadge: {
+    position: "absolute",
+    bottom: 0,
+    backgroundColor: "#23A7F5",
+    width: "100%",
+    paddingVertical: 2,
+    alignItems: "center",
   },
 });
