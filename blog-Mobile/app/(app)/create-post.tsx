@@ -17,7 +17,7 @@ export default function CreatePost() {
         try {
             setIsSubmitting(true);
             const token = await AsyncStorage.getItem("token");
-            const idPerfil = await AsyncStorage.getItem("id_perfil");
+            const idPerfil = await AsyncStorage.getItem("id_Perfil");
 
 
             if (!token || !idPerfil) {

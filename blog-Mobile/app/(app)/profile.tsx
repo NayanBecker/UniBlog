@@ -6,13 +6,16 @@ import {
     ActivityIndicator,
     StyleSheet,
     ScrollView,
-    Image
+    Image,
+    TouchableOpacity
 } from "react-native";
 import AsyncStorage from "@react-native-async-storage/async-storage";
 import NavBar from "../../src/components/navBarComponent";
 import { ImageProfileComponent } from "@/src/components/ImageProfileComponent";
 import { SettingsButton } from "@/src/components/SettingsButton";
 import { EditProfileButton } from "@/src/components/EditProfileButton";
+import { logout } from "../../src/utils/logout";
+
 
 type ProfileData = {
     id_Perfil: number;
@@ -57,7 +60,7 @@ export default function ProfileScreen() {
         async function fetchProfileAndPosts() {
             try {
                 const token = await AsyncStorage.getItem("token");
-                const idPerfil = await AsyncStorage.getItem("id_perfil");
+                const idPerfil = await AsyncStorage.getItem("id_Perfil");
 
                 if (!token || !idPerfil) {
                     console.warn("Nenhum token ou id_perfil encontrado.");
@@ -154,12 +157,28 @@ export default function ProfileScreen() {
     }
 
     if (!profile) {
-        return (
-            <View style={styles.container}>
-                <Text style={styles.title}>Erro ao carregar perfil</Text>
-            </View>
-        );
-    }
+    return (
+        <View style={styles.container}>
+            <Text style={styles.title}>Erro ao carregar perfil</Text>
+
+            <TouchableOpacity
+                style={{
+                    marginTop: 20,
+                    backgroundColor: "#e53935",
+                    paddingVertical: 10,
+                    paddingHorizontal: 20,
+                    borderRadius: 8,
+                }}
+                onPress={logout} // 👈 chama a função do utils/logout.ts
+            >
+                <Text style={{ color: "#fff", fontWeight: "bold", fontSize: 16 }}>
+                    Fazer logout
+                </Text>
+            </TouchableOpacity>
+        </View>
+    );
+}
+
 
     return (
         <View style={{ flex: 1 }}>
