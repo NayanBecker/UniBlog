@@ -18,8 +18,15 @@ ORDER BY (COUNT(DISTINCT c."id_Curtida") + COUNT(DISTINCT co."id_Comentario")) D
 def grafico_engajamento_post(conn):
     df = pd.read_sql(query, conn)
     df['engajamento_total'] = df['total_curtidas'] + df['total_comentarios']
-    sns.histplot(df['engajamento_total'], bins=10)
+    ax = plt.subplot()
+    ax.set_facecolor('#E8F0F2')
+    ax.set_ylabel('Quantidade de Posts', fontsize=12)
+    ax.set_xlabel('Curtidas + Comentários', fontsize=12)
     plt.title('Distribuição do Engajamento dos Posts')
-    plt.xlabel('Curtidas + Comentários')
-    plt.ylabel('Quantidade de Posts')
+    sns.histplot(df['engajamento_total'], bins=20, kde=False,  ax=ax, color='tab:red')
+    media = df['engajamento_total'].mean()
+    mediana = df['engajamento_total'].median()
+    plt.axvline(media, color='blue', linestyle='--', label=f'Média: {media:.2f}')
+    plt.axvline(mediana, color='orange', linestyle='--', label=f'Mediana: {mediana:.1f}')
+    plt.legend()
     plt.show()

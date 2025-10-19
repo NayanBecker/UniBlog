@@ -22,6 +22,7 @@ GROUP BY pf."tipo_Perfil";
 def grafico_engajamento_por_tipo(conn):
     df = pd.read_sql(query, conn)
     sns.barplot(x='tipo_Perfil', y='engajamento_medio', data=df)
+    sns.color_palette("tab10")
     plt.title('Engajamento Médio por Tipo de Perfil')
     plt.xlabel('Tipo de Perfil')
     plt.ylabel('Engajamento Médio')
