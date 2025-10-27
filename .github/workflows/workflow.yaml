@@ -19,11 +19,11 @@ jobs:
 
       - name: Install dependencies
         run: npm install
-        working-directory: ./blog-Backend
+        working-directory: ./blog-backend
 
       - name: Run ESLint
         run: npx eslint .
-        working-directory: ./blog-Backend
+        working-directory: ./blog-backend
 
 
 
@@ -40,16 +40,16 @@ jobs:
 
       - name: Install dependencies
         run: npm install
-        working-directory: ./blog-Mobile
+        working-directory: ./blog-mobile
 
       - name: Run ESLint
         run: npx eslint .
-        working-directory: ./blog-Mobile
+        working-directory: ./blog-mobile
 
       - name: Run expo-check
         run: npx expo install --check
-        working-directory: ./blog-Mobile
+        working-directory: ./blog-mobile
 
       - name: run expo-doctor
         run: npx expo-doctor
-        working-directory: ./blog-Mobile
+        working-directory: ./blog-mobile
