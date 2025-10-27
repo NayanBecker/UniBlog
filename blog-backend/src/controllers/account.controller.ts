@@ -1,6 +1,5 @@
-import Fastify, { FastifyReply, FastifyRequest } from 'fastify';
+import { FastifyReply, FastifyRequest } from 'fastify';
 
-const fastify = Fastify();
 import { createAccountService, authenticateAccountService, updateAccountService } from '../services/account.service';
 import { createAccountSchema, authenticateAccountSchema, updateAccountSchema } from '../schemas/account.schema';
 

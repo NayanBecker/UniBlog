@@ -2,11 +2,32 @@ name: CI
 on:
   pull_request:
   push:
-    branches:
-      - main
+
 
 jobs:
-  build:
+
+  Backend_setup:
+    runs-on: ubuntu-latest
+
+    steps:
+      - uses: actions/checkout@v3
+
+      - name: Set up Node.js
+        uses: actions/setup-node@v3
+        with:
+          node-version: '20.19.4'
+
+      - name: Install dependencies
+        run: npm install
+        working-directory: ./blog-Backend
+
+      - name: Run ESLint
+        run: npx eslint .
+        working-directory: ./blog-Backend
+
+
+
+  Mobile_setup:
     runs-on: ubuntu-latest
 
     steps:

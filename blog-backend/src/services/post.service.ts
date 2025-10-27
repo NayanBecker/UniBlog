@@ -1,5 +1,5 @@
 import { PrismaClient } from '../generated/prisma';
-const db = new PrismaClient()
+const db = new PrismaClient();
 
 
 export interface CreatePostDataInterface {

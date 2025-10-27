@@ -26,7 +26,8 @@ export async function createAccountService(data: CreateAccountDataInterface) {
   if (data.password_Account !== data.confirmPassword_Account) {
     throw new Error('As senhas não coincidem.');
   }
-  const hashedPassword = await hash(data.password_Account, 8);
+  const SALT_ROUNDS = 8;
+  const hashedPassword = await hash(data.password_Account, SALT_ROUNDS);
 
   const createdAccount = await db.t_Account.create({
     data: {

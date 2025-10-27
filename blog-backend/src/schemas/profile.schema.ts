@@ -1,4 +1,5 @@
-import { z } from "zod";
+import { z } from 'zod';
+
 
 export const createProfileSchema = z.object({
   nome_Perfil: z.string().max(100, 'O nome pode ter no máximo 100 caracteres'),
