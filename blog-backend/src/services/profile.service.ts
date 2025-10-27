@@ -1,4 +1,4 @@
-import { uploadToMinio } from '../utils/uploadToMinio';
+// import { uploadToMinio } from '../utils/uploadToMinio';
 import { PrismaClient } from '../generated/prisma';
 
 const db = new PrismaClient();

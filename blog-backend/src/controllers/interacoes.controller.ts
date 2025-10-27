@@ -1,5 +1,5 @@
 import { FastifyRequest, FastifyReply } from 'fastify';
-import { curtirService, descurtirService, comentarService, deletarComentarioService, getInteracoesByPostIdService } from '../services/interacoes.service';
+import { curtirService, descurtirService, comentarService, deletarComentarioService/*getInteracoesByPostIdService*/ } from '../services/interacoes.service';
 import { curtirSchema, comentarSchema, deletarComentarioSchema } from '../schemas/interacoes.schema';
 import { idProfileSchema } from '../schemas/profile.schema';
 
