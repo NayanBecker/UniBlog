@@ -1,5 +1,6 @@
 import React, { useState } from "react";
 import { View, Text, TouchableOpacity, FlatList, StyleSheet } from "react-native";
+import { Dropdown } from 'react-native-element-dropdown';
 
 const courses = [
     { id_Curso: 1, nome_Curso: "Administração", maxSemestres_Curso: 8 },
@@ -16,63 +17,65 @@ const courses = [
     { id_Curso: 12, nome_Curso: "Pedagogia", maxSemestres_Curso: 8 },
     { id_Curso: 13, nome_Curso: "Contabilidade", maxSemestres_Curso: 8 },
     { id_Curso: 14, nome_Curso: "Publicidade e Propaganda", maxSemestres_Curso: 8 },
-    { id_Curso: 15, nome_Curso: "Design Gráfico", maxSemestres_Curso: 8 },
+    { id_Curso: 15, nome_Curso: "Design", maxSemestres_Curso: 8 },
 ].sort((a, b) => a.nome_Curso.localeCompare(b.nome_Curso));
 
-export default function CourseSelector({ onSelect }: { onSelect: (id: number) => void }) {
-    const [selected, setSelected] = useState<number | null>(null);
-    const [isOpen, setIsOpen] = useState(false);
 
-    const handleSelect = (id: number) => {
-        setSelected(id);
-        setIsOpen(false);
-        onSelect(id);
+
+export default function CourseSelector({ onSelect }: ({ onSelect: (courseId: number) => void })) {
+    const [value, setValue] = useState<number | null>(null);
+    const [isFocus, setIsFocus] = useState(false);
+
+
+    const data = courses.map((curso) => ({
+        label: curso.nome_Curso,
+        value: curso.id_Curso,
+    }));
+
+    const renderLabel = () => {
+        if (value || isFocus) {
+            return (
+                <Text style={[styles.label, isFocus && { color: '#007AFF' }]}>
+                    Cursos
+                </Text>
+            );
+        }
+        return null;
     };
 
-    const selectedCourse = courses.find((c) => c.id_Curso === selected);
 
     return (
         <View style={styles.container}>
-            <TouchableOpacity style={styles.dropdownButton} onPress={() => setIsOpen(!isOpen)}>
-                <Text style={styles.dropdownText}>
-                    {selectedCourse ? selectedCourse.nome_Curso : "Selecione seu curso"}
-                </Text>
-            </TouchableOpacity>
-
-            {isOpen && (
-                <View style={styles.dropdownList}>
-                    <FlatList
-                        data={courses}
-                        keyExtractor={(item) => String(item.id_Curso)}
-                        showsVerticalScrollIndicator={false}
-                        renderItem={({ item }) => (
-                            <TouchableOpacity
-                                style={[
-                                    styles.item,
-                                    selected === item.id_Curso && styles.selectedItem,
-                                ]}
-                                onPress={() => handleSelect(item.id_Curso)}
-                            >
-                                <Text
-                                    style={[
-                                        styles.itemText,
-                                        selected === item.id_Curso && styles.selectedText,
-                                    ]}
-                                >
-                                    {item.nome_Curso}
-                                </Text>
-                            </TouchableOpacity>
-                        )}
-                    />
-                </View>
-            )}
+            {renderLabel()}
+            <Dropdown
+                style={[styles.dropdownButton, isFocus && { borderColor: 'blue' }]}
+                placeholderStyle={styles.placeholder}
+                selectedTextStyle={styles.selectedText}
+                inputSearchStyle={styles.inputSearch}
+                iconStyle={styles.iconStyle}
+                data={data}
+                search
+                maxHeight={300}
+                labelField="label"
+                valueField="value"
+                placeholder={!isFocus ? 'Selecione um curso' : '...'}
+                searchPlaceholder="Pesquisar..."
+                value={value}
+                onFocus={() => setIsFocus(true)}
+                onBlur={() => setIsFocus(false)}
+                onChange={item => {
+                    setValue(item.value);
+                    setIsFocus(false);
+                    onSelect(item.value);
+                }}
+            />
         </View>
     );
-}
+};
+
 
 const styles = StyleSheet.create({
     container: {
-        width: "100%",
     },
     dropdownButton: {
         borderWidth: 1,
@@ -81,17 +84,33 @@ const styles = StyleSheet.create({
         padding: 12,
         backgroundColor: "#f9f9f9",
     },
+    label: {
+        position: "absolute",
+        backgroundColor: "white",
+        borderRadius: 4,
+        top: -6,
+        left: 5,
+        borderWidth: 1,
+        borderColor: "#ccc",
+        zIndex: 999,
+        paddingHorizontal: 4,
+        fontSize: 12,
+    },
     dropdownText: {
         fontSize: 16,
         color: "#333",
     },
     dropdownList: {
         marginTop: 5,
-        maxHeight: 250,
+        maxHeight: 80,
         borderWidth: 1,
         borderColor: "#ccc",
         borderRadius: 8,
-        backgroundColor: "#fff",
+        backgroundColor: "#007AFF",
+    },
+    placeholder: {
+        fontSize: 16,
+        color: "#007AFF",
     },
     item: {
         padding: 12,
@@ -106,4 +125,16 @@ const styles = StyleSheet.create({
         color: "#007AFF",
         fontWeight: "bold",
     },
+    iconStyle: {
+        width: 20,
+        height: 20,
+    },
+    inputSearch: {
+        height: 40,
+        fontSize: 16,
+    },
+    icon: {
+        marginRight: 10,
+    },
+
 });
