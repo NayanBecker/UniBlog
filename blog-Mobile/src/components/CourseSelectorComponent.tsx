@@ -1,5 +1,5 @@
 import React, { useState } from "react";
-import { View, Text, TouchableOpacity, FlatList, StyleSheet } from "react-native";
+import { View, Text, StyleSheet } from "react-native";
 import { Dropdown } from 'react-native-element-dropdown';
 
 const courses = [
