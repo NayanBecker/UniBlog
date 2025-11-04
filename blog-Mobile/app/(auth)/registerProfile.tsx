@@ -19,11 +19,21 @@ export default function CreateProfile() {
     });
 
     async function handleCreateProfile() {
+        const formData = new FormData();
+        formData.append("nome_Perfil", data.nome_Perfil);
+        formData.append("email_Perfil", data.email_Perfil);
+        formData.append("descricao_Perfil", data.descricao_Perfil);
+        formData.append("tipo_Perfil", data.tipo_Perfil);
+        formData.append("id_Curso_Perfil", data.id_Curso_Perfil.toString());
+        formData.append("semestre_Perfil", data.semestre_Perfil);
+        formData.append("createdAt_Perfil", new Date().toISOString());
+
         try {
             setSending(true);
-            await api.post("/profile/new", {
-                ...data,
-                createdAt_Perfil: new Date(),
+            await api.post("/profile/new", formData, {
+                headers: {
+                    "Content-Type": "multipart/form-data",
+                },
             });
             setSuccess(true);
             setTimeout(() => router.replace("/(app)/feed"), 1800);
@@ -40,7 +50,6 @@ export default function CreateProfile() {
             </View>
         );
     }
-    console.log(data);
 
 
     return (
@@ -70,8 +79,13 @@ export default function CreateProfile() {
                     onChangeText={(t) => setData({ ...data, descricao_Perfil: t })}
                 />
                 <CourseSelector
-                    onSelect={(courseId) => setData({ ...data, id_Curso_Perfil: courseId })}
+                    onSelect={(courseId) =>
+                        setData({
+                            ...data, id_Curso_Perfil: courseId
+                        })
+                    }
                 />
+
 
                 <TouchableOpacity
                     disabled={sending}

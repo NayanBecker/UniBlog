@@ -4,7 +4,9 @@ import AsyncStorage from "@react-native-async-storage/async-storage";
 import { router } from "expo-router";
 
 const LOCAL_BASE =
-    Platform.OS === "android" ? "http://minio.uniblog.cloud:3333" : "http://minio.uniblog.cloud:3333";
+    Platform.OS === "android" ? "https://48b6c3125e0a.ngrok-free.app" : "http://minio.uniblog.cloud:3333";
+//Platform.OS === "android" ? "http://uno.uniblog.cloud:3000" : "http://minio.uniblog.cloud:3333";
+
 
 export const url = LOCAL_BASE;
 
