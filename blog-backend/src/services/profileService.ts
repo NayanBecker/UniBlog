@@ -1,7 +1,5 @@
-// import { uploadToMinio } from '../utils/uploadToMinio';
-import { PrismaClient } from '../generated/prisma';
+import db from '../lib/prisma';
 
-const db = new PrismaClient();
 interface CreateProfileDataInterface {
   nome_Perfil: string;
   email_Perfil: string;

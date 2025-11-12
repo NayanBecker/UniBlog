@@ -1,5 +1,4 @@
-import { PrismaClient } from '../generated/prisma';
-const db = new PrismaClient();
+import db from '../lib/prisma';
 
 export interface CurtirData {
     id_PIC_Curtida: number;

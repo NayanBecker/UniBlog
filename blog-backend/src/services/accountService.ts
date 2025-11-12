@@ -1,8 +1,7 @@
 import { hash, compare } from 'bcryptjs';
-import { PrismaClient } from '../generated/prisma';
 import { app } from '../app';
+import db from '../lib/prisma';
 
-const db = new PrismaClient();
 export interface CreateAccountDataInterface {
   nome_Account: string;
   email_Account: string;
