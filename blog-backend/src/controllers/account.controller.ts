@@ -1,6 +1,6 @@
 import { FastifyReply, FastifyRequest } from 'fastify';
 
-import { createAccountService, authenticateAccountService, updateAccountService } from '../services/account.service';
+import { createAccountService, authenticateAccountService, updateAccountService } from '../services/accountService';
 import { createAccountSchema, authenticateAccountSchema, updateAccountSchema } from '../schemas/account.schema';
 
 

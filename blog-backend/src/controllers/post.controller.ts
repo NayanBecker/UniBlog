@@ -1,10 +1,10 @@
 import { FastifyRequest, FastifyReply } from 'fastify';
-import { createPostService, deletePostService, getPostByProfileService, getAllPostsService } from '../services/post.service';
+import { createPostService, deletePostService, getPostByProfileService, getAllPostsService } from '../services/postService';
 import { createPostSchema, deletePostSchema/*, getPostSchema */ } from '../schemas/post.schema';
 import { parseMultipart } from '../utils/parseMultipart';
 import { uploadToMinio } from '../utils/uploadToMinio';
 import { idProfileSchema } from '../schemas/profile.schema';
-import { getInteracoesByPostIdService, } from '../services/interacoes.service';
+import { getInteracoesByPostIdService, } from '../services/interacoesService';
 
 export async function createPostController(request: FastifyRequest, reply: FastifyReply) {
     try {
