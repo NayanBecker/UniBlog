@@ -1,6 +1,6 @@
 import { FastifyRequest, FastifyReply } from 'fastify';
 import { createProfileService, updateProfileService, deleteProfileService, getProfileService, getAllProfilesService, getProfilesByAccountIdService } from '../services/profileService';
-import { createProfileSchema, idProfileSchema, updateProfileSchema } from '../schemas/profile.schema';
+import { createProfileSchema, idProfileSchema, updateProfileSchema } from './schemas/profile.schema';
 import { uploadToMinio } from '../utils/uploadToMinio';
 import { parseMultipart } from '../utils/parseMultipart';
 

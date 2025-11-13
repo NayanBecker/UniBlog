@@ -6,7 +6,8 @@
     "build": "tsc",
     "start": "node dist/server.ts",
     "dev": "ts-node-dev --respawn --transpile-only src/server.ts",
-    "lint": "eslint . --ext .ts"
+    "lint": "eslint . --ext .ts",
+    "test": "jest"
   },
   "prisma": {
     "seed": "ts-node prisma/seed.ts",
@@ -36,9 +37,12 @@
   },
   "devDependencies": {
     "@eslint/js": "^9.38.0",
+    "@types/jest": "^30.0.0",
     "@types/node": "^22.15.21",
     "eslint": "^9.38.0",
     "globals": "^16.4.0",
+    "jest": "^30.2.0",
+    "ts-jest": "^29.4.5",
     "ts-node-dev": "^2.0.0",
     "typescript": "^5.8.3",
     "typescript-eslint": "^8.46.2"

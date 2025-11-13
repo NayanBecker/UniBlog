@@ -1,7 +1,7 @@
 import { FastifyRequest, FastifyReply } from 'fastify';
 import { curtirService, descurtirService, comentarService, deletarComentarioService/*getInteracoesByPostIdService*/ } from '../services/interacoesService';
-import { curtirSchema, comentarSchema, deletarComentarioSchema } from '../schemas/interacoes.schema';
-import { idProfileSchema } from '../schemas/profile.schema';
+import { curtirSchema, comentarSchema, deletarComentarioSchema } from './schemas/interacoes.schema';
+import { idProfileSchema } from './schemas/profile.schema';
 
 export async function curtirController(request: FastifyRequest, reply: FastifyReply) {
     try {

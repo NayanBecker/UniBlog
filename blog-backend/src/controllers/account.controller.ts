@@ -1,7 +1,7 @@
 import { FastifyReply, FastifyRequest } from 'fastify';
 
 import { createAccountService, authenticateAccountService, updateAccountService } from '../services/accountService';
-import { createAccountSchema, authenticateAccountSchema, updateAccountSchema } from '../schemas/account.schema';
+import { createAccountSchema, authenticateAccountSchema, updateAccountSchema } from './schemas/account.schema';
 
 
 export async function registerAccountController(request: FastifyRequest, reply: FastifyReply) {

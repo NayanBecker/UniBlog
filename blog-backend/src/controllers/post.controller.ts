@@ -1,10 +1,11 @@
 import { FastifyRequest, FastifyReply } from 'fastify';
 import { createPostService, deletePostService, getPostByProfileService, getAllPostsService } from '../services/postService';
-import { createPostSchema, deletePostSchema/*, getPostSchema */ } from '../schemas/post.schema';
+import { createPostSchema, deletePostSchema/*, getPostSchema */ } from './schemas/post.schema';
 import { parseMultipart } from '../utils/parseMultipart';
 import { uploadToMinio } from '../utils/uploadToMinio';
-import { idProfileSchema } from '../schemas/profile.schema';
+import { idProfileSchema } from './schemas/profile.schema';
 import { getInteracoesByPostIdService, } from '../services/interacoesService';
+import { T_Post } from '@/generated/prisma';
 
 export async function createPostController(request: FastifyRequest, reply: FastifyReply) {
     try {
@@ -74,7 +75,7 @@ export async function getPostController(request: FastifyRequest, reply: FastifyR
 }
 export async function getAllPostsController(request: FastifyRequest, reply: FastifyReply) {
     try {
-        const postsData = await getAllPostsService();
+        const postsData: T_Post[] = await getAllPostsService();
 
         const postsWithInteractions = await Promise.all(
             postsData.map(async (post) => {
