@@ -26,6 +26,10 @@ jobs:
         working-directory: ./blog-backend
         continue-on-error: true
         
+      - name: Run tests
+        run: npm run test
+        working-directory: ./blog-backend
+        continue-on-error: true
 
 
 
