@@ -23,30 +23,30 @@
         <div class='clearfix'>
             
             <div class='fl pad1y space-right2'>
-                <span class="strong">51.35% </span>
+                <span class="strong">100% </span>
                 <span class="quiet">Statements</span>
-                <span class='fraction'>19/37</span>
+                <span class='fraction'>37/37</span>
             </div>
         
             
             <div class='fl pad1y space-right2'>
                 <span class="strong">100% </span>
                 <span class="quiet">Branches</span>
-                <span class='fraction'>0/0</span>
+                <span class='fraction'>6/6</span>
             </div>
         
             
             <div class='fl pad1y space-right2'>
-                <span class="strong">0% </span>
+                <span class="strong">100% </span>
                 <span class="quiet">Functions</span>
-                <span class='fraction'>0/4</span>
+                <span class='fraction'>4/4</span>
             </div>
         
             
             <div class='fl pad1y space-right2'>
-                <span class="strong">51.35% </span>
+                <span class="strong">100% </span>
                 <span class="quiet">Lines</span>
-                <span class='fraction'>19/37</span>
+                <span class='fraction'>37/37</span>
             </div>
         
             
@@ -61,7 +61,7 @@
             </div>
         </template>
     </div>
-    <div class='status-line medium'></div>
+    <div class='status-line high'></div>
     <pre><table class="coverage">
 <tr><td class="line-count quiet"><a name='L1'></a><a href='#L1'>1</a>
 <a name='L2'></a><a href='#L2'>2</a>
@@ -109,33 +109,33 @@
 <span class="cline-any cline-yes">1x</span>
 <span class="cline-any cline-yes">1x</span>
 <span class="cline-any cline-yes">1x</span>
-<span class="cline-any cline-no">&nbsp;</span>
-<span class="cline-any cline-no">&nbsp;</span>
-<span class="cline-any cline-no">&nbsp;</span>
-<span class="cline-any cline-no">&nbsp;</span>
 <span class="cline-any cline-yes">1x</span>
 <span class="cline-any cline-yes">1x</span>
 <span class="cline-any cline-yes">1x</span>
 <span class="cline-any cline-yes">1x</span>
-<span class="cline-any cline-no">&nbsp;</span>
-<span class="cline-any cline-no">&nbsp;</span>
-<span class="cline-any cline-no">&nbsp;</span>
-<span class="cline-any cline-no">&nbsp;</span>
-<span class="cline-any cline-no">&nbsp;</span>
-<span class="cline-any cline-no">&nbsp;</span>
-<span class="cline-any cline-no">&nbsp;</span>
-<span class="cline-any cline-no">&nbsp;</span>
 <span class="cline-any cline-yes">1x</span>
 <span class="cline-any cline-yes">1x</span>
 <span class="cline-any cline-yes">1x</span>
-<span class="cline-any cline-no">&nbsp;</span>
-<span class="cline-any cline-no">&nbsp;</span>
-<span class="cline-any cline-no">&nbsp;</span>
-<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-yes">1x</span>
+<span class="cline-any cline-yes">2x</span>
+<span class="cline-any cline-yes">2x</span>
+<span class="cline-any cline-yes">2x</span>
+<span class="cline-any cline-yes">2x</span>
+<span class="cline-any cline-yes">2x</span>
 <span class="cline-any cline-yes">1x</span>
 <span class="cline-any cline-yes">1x</span>
-<span class="cline-any cline-no">&nbsp;</span>
-<span class="cline-any cline-no">&nbsp;</span></td><td class="text"><pre class="prettyprint lang-js">import { CreatePostData, postRepository } from '../repository/postRepository';
+<span class="cline-any cline-yes">1x</span>
+<span class="cline-any cline-yes">1x</span>
+<span class="cline-any cline-yes">1x</span>
+<span class="cline-any cline-yes">1x</span>
+<span class="cline-any cline-yes">2x</span>
+<span class="cline-any cline-yes">2x</span>
+<span class="cline-any cline-yes">1x</span>
+<span class="cline-any cline-yes">1x</span>
+<span class="cline-any cline-yes">1x</span>
+<span class="cline-any cline-yes">1x</span>
+<span class="cline-any cline-yes">1x</span>
+<span class="cline-any cline-yes">1x</span></td><td class="text"><pre class="prettyprint lang-js">import { CreatePostData, postRepository } from '../repository/postRepository';
 &nbsp;
 export interface ParamsPostDataInterface {
   id_Post: number;
@@ -144,41 +144,41 @@ export interface PerfilHeaderDataInterface {
   'id_Perfil': number;
 }
 &nbsp;
-export <span class="fstat-no" title="function not covered" >async function createPostService(data: CreatePostData, id_Perfil_Post: number) {</span>
-<span class="cstat-no" title="statement not covered" >  const createdPost = await postRepository.createPost(data, id_Perfil_Post);</span>
-<span class="cstat-no" title="statement not covered" >  await postRepository.createInteracaoCapa(createdPost.id_Post);</span>
-<span class="cstat-no" title="statement not covered" >  return createdPost;</span>
-<span class="cstat-no" title="statement not covered" >}</span>
+export async function createPostService(data: CreatePostData, id_Perfil_Post: number) {
+  const createdPost = await postRepository.createPost(data, id_Perfil_Post);
+  await postRepository.createInteracaoCapa(createdPost.id_Post);
+  return createdPost;
+}
 &nbsp;
 &nbsp;
 &nbsp;
-export <span class="fstat-no" title="function not covered" >async function deletePostService(</span>
-<span class="cstat-no" title="statement not covered" >  { id_Post }: ParamsPostDataInterface,</span>
-<span class="cstat-no" title="statement not covered" >  id_Perfil_Post: number</span>
-<span class="cstat-no" title="statement not covered" >) {</span>
-<span class="cstat-no" title="statement not covered" >  const post = await postRepository.findByIdAndProfile(id_Post, id_Perfil_Post);</span>
-<span class="cstat-no" title="statement not covered" >  if (!post) throw new Error('Post não encontrado.');</span>
-<span class="cstat-no" title="statement not covered" ></span>
-<span class="cstat-no" title="statement not covered" >  return postRepository.delete(id_Post);</span>
-<span class="cstat-no" title="statement not covered" >}</span>
+export async function deletePostService(
+  { id_Post }: ParamsPostDataInterface,
+  id_Perfil_Post: number
+) {
+  const post = await postRepository.findByIdAndProfile(id_Post, id_Perfil_Post);
+  if (!post) throw new Error('Post não encontrado.');
+&nbsp;
+  return postRepository.delete(id_Post);
+}
 &nbsp;
 &nbsp;
-export <span class="fstat-no" title="function not covered" >async function getPostByProfileService({ id_Perfil }: PerfilHeaderDataInterface) {</span>
-<span class="cstat-no" title="statement not covered" >  const posts = await postRepository.findByProfile(id_Perfil);</span>
-<span class="cstat-no" title="statement not covered" >  if (!posts || posts.length === 0) throw new Error('Nenhum post encontrado.');</span>
-<span class="cstat-no" title="statement not covered" >  return posts;</span>
-<span class="cstat-no" title="statement not covered" >}</span>
+export async function getPostByProfileService({ id_Perfil }: PerfilHeaderDataInterface) {
+  const posts = await postRepository.findByProfile(id_Perfil);
+  if (!posts || posts.length === 0) throw new Error('Nenhum post encontrado.');
+  return posts;
+}
 &nbsp;
-export <span class="fstat-no" title="function not covered" >async function getAllPostsService() {</span>
-<span class="cstat-no" title="statement not covered" >  return postRepository.findAll();</span>
-<span class="cstat-no" title="statement not covered" >}</span></pre></td></tr></table></pre>
+export async function getAllPostsService() {
+  return postRepository.findAll();
+}</pre></td></tr></table></pre>
 
                 <div class='push'></div><!-- for sticky footer -->
             </div><!-- /wrapper -->
             <div class='footer quiet pad2 space-top1 center small'>
                 Code coverage generated by
                 <a href="https://istanbul.js.org/" target="_blank" rel="noopener noreferrer">istanbul</a>
-                at 2025-11-15T19:14:22.787Z
+                at 2025-11-17T23:54:38.533Z
             </div>
         <script src="../../prettify.js"></script>
         <script>
