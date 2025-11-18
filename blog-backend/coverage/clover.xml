@@ -186,7 +186,7 @@
         <line num="89" count="0" type="stmt"/>
         <line num="90" count="0" type="stmt"/>
       </file>
-      <file name="post.controller.ts" path="M:\UniBlog\UniBlog\blog-backend\src\controllers\post.controller.ts">
+      <file name="postController.ts" path="M:\UniBlog\UniBlog\blog-backend\src\controllers\postController.ts">
         <metrics statements="95" coveredstatements="15" conditionals="0" coveredconditionals="0" methods="4" coveredmethods="0"/>
         <line num="1" count="1" type="stmt"/>
         <line num="2" count="1" type="stmt"/>

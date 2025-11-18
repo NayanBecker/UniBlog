@@ -210,7 +210,7 @@ BRF:0
 BRH:0
 end_of_record
 TN:
-SF:src\controllers\post.controller.ts
+SF:src\controllers\postController.ts
 FN:10,createPostController
 FN:42,deletePostController
 FN:57,getPostController
