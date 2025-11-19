@@ -46,13 +46,36 @@ export function EditProfileButton({ profile, onProfileUpdated }: Props) {
         return;
       }
 
+      if (descricao.length > 200) {
+        Alert.alert("Erro", "A descrição deve ter no máximo 200 caracteres.");
+        return;
+      }
+      
+      const allowedFormats = ["image/jpeg", "image/png", "image/jpg", "image/webp"];
+      if (foto && foto.startsWith("file://")) {
+        const fileName = foto.split("/").pop() || "foto.jpg";
+        const fileType = 
+          fileName.endsWith(".png") ? "image/png" :
+          fileName.endsWith(".webp") ? "image/webp" :
+          "image/jpeg";
+
+        if (!allowedFormats.includes(fileType)) {
+          Alert.alert("Erro", "Formato de imagem inválido. Aceito: JPG, JPEG, PNG, WEBP.");
+          return;
+        }
+      }
+
       const formData = new FormData();
       formData.append("id_Perfil", String(idPerfil));
       formData.append("descricao_Perfil", descricao || "");
 
       if (foto && foto.startsWith("file://")) {
         const fileName = foto.split("/").pop() || "foto.jpg";
-        const fileType = fileName.endsWith(".png") ? "image/png" : "image/jpeg";
+        const fileType =
+          fileName.endsWith(".png") ? "image/png" :
+          fileName.endsWith(".webp") ? "image/webp" :
+          "image/jpeg";
+
         formData.append("foto_Perfil", {
           uri: foto,
           name: fileName,
@@ -60,22 +83,15 @@ export function EditProfileButton({ profile, onProfileUpdated }: Props) {
         } as any);
       }
 
-      console.log("📤 Enviando dados do perfil:");
-      for (let [key, value] of (formData as any)._parts) {
-        console.log(`  ${key}:`, value);
-      }
-
       const response = await fetch("http://192.168.3.9:3333/profile/update", {
         method: "PUT",
         headers: {
           Authorization: `Bearer ${token}`,
-          // ❗ Não definir Content-Type manualmente
         },
         body: formData,
       });
 
       const data = await response.json();
-      console.log("✅ Resposta:", data);
 
       if (!response.ok) {
         throw new Error(data.message || "Erro ao atualizar perfil");

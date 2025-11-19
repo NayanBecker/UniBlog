@@ -20,7 +20,6 @@ export default function SelectProfile() {
         async function fetchProfiles() {
             try {
                 const res = await api.get("/profile/get/AccountProfiles");
-                const res = await api.get("/profile/get/AccountProfiles");
                 setProfiles(res.data);
             } catch (err: any) {
                 console.log("Erro ao carregar perfis:", err.message);
