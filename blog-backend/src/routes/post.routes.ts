@@ -1,5 +1,5 @@
 import { FastifyInstance } from 'fastify';
-import { createPostController, deletePostController, getAllPostsController, getPostController } from '../controllers/post.controller';
+import { createPostController, deletePostController, getAllPostsController, getPostController } from '../controllers/postController';
 import { verifyJWT } from '../middlewares/auth.middleware';
 
 export async function postRoutes(app: FastifyInstance) {
