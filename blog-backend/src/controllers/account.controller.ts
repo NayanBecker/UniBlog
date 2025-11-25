@@ -1,12 +1,12 @@
 import { FastifyReply, FastifyRequest } from 'fastify';
 
 import { createAccountService, authenticateAccountService, updateAccountService } from '../services/accountService';
-import { createAccountSchema, authenticateAccountSchema, updateAccountSchema } from './schemas/account.schema';
+import { authenticateAccountSchema, updateAccountSchema, registerAccountSchema } from './schemas/account.schema';
 
 
 export async function registerAccountController(request: FastifyRequest, reply: FastifyReply) {
   try {
-    const data = createAccountSchema.parse(request.body);
+    const data = registerAccountSchema.parse(request.body);
 
     const account = await createAccountService(data);
 

@@ -1,6 +1,6 @@
 import { z } from 'zod';
 
-export const createAccountSchema = z.object({
+export const registerAccountSchema = z.object({
   nome_Account: z.string().max(100, 'O nome pode ter no máximo 100 caracteres'),
   email_Account: z.string().max(200, 'O email pode ter no máximo 200 caracteres').email('Formato de email inválido'),
   matricula_Account: z.string().max(20, 'A matrícula pode ter no máximo 20 caracteres'),
