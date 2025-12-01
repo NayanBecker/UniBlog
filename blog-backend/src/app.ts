@@ -14,6 +14,7 @@ export const app = Fastify();
 export async function BuildServer() {
   await app.register(swagger, {
     openapi: {
+      openapi: '3.0.0',
       info: {
         title: 'UniBlog API',
         description: 'API documentation for UniBlog application',
