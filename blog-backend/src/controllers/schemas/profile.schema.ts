@@ -33,5 +33,5 @@ export const updateProfileSchema = z.object({
 });
 
 export const idProfileSchema = z.object({
-  id_Perfil: z.preprocess(val => Number(val), z.number().int('O ID deve ser um número inteiro').positive('O ID deve ser um número positivo')),
+  id_Perfil: z.coerce.number().int().positive(),
 });

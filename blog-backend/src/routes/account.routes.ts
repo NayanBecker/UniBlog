@@ -6,16 +6,19 @@ export async function authRoutes(app: FastifyInstance) {
   app.post('/register',
     {
       schema: registerAccountSchemaDoc,
-      handler: registerAccountController
-    });
+    },
+    registerAccountController
+  );
   app.post('/login',
     {
       schema: authenticateAccountSchemaDoc,
-      handler: loginAccountController
-    });
+    },
+    loginAccountController
+  );
   app.put('/update/:id_Account',
     {
       schema: updateAccountSchemaDoc,
-      handler: updateAccountController
-    });
+    },
+    updateAccountController
+  );
 }
