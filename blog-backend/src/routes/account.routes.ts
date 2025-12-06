@@ -1,5 +1,5 @@
 import { FastifyInstance } from 'fastify';
-import { registerAccountController, loginAccountController, updateAccountController } from '../controllers/account.controller';
+import { registerAccountController, loginAccountController, updateAccountController, recoverAccountController } from '../controllers/account.controller';
 import { registerAccountSchemaDoc, updateAccountSchemaDoc, authenticateAccountSchemaDoc } from '@/controllers/schemas/account.schema';
 
 export async function authRoutes(app: FastifyInstance) {
@@ -21,4 +21,6 @@ export async function authRoutes(app: FastifyInstance) {
     },
     updateAccountController
   );
+  app.post('/recoverLogin', recoverAccountController);
+
 }

@@ -19,6 +19,9 @@ export interface AuthAccountDataInterface {
   email_Account: string;
   password_Account: string;
 }
+export interface RecoverAccountDataInterface {
+  email_Account: string;
+}
 
 
 export async function createAccountService(data: CreateAccountDataInterface) {
@@ -49,6 +52,11 @@ export async function updateAccountService(data: UpdateAccountDataInterface) {
     throw new Error('Conta não encontrada');
   }
 
+  if (data.password_Account) {
+    const SALT_ROUNDS = 8;
+    const hashedPassword = await hash(data.password_Account, SALT_ROUNDS);
+    data.password_Account = hashedPassword;
+  }
   const updatedAccount = await db.t_Account.update({
 
     where: { id_Account: data.id_Account },
@@ -91,4 +99,16 @@ export async function authenticateAccountService({ email_Account, password_Accou
   );
 
   return token;
+}
+
+export async function findAccountIdByEmailService({ email_Account }: RecoverAccountDataInterface) {
+  const findAccountIdByEmail = await db.t_Account.findUnique({
+    where: { email_Account },
+    select: { id_Account: true },
+  });
+  if (!findAccountIdByEmail) {
+    throw new Error('E-mail não encontrado');
+  }
+
+  return findAccountIdByEmail;
 }
