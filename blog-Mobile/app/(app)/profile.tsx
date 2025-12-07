@@ -123,11 +123,9 @@ export default function ProfileScreen() {
             setPosts(sorted);
         } catch (error: any) {
             if (axios.isAxiosError(error) && error.response?.status === 404) {
-                console.warn("Nenhum post encontrado. Lista vazia.");
                 setPosts([]);
                 return;
             }
-            console.error("Erro ao buscar posts:", error.response?.data || error);
         } finally {
             setPostsLoading(false);
         }
