@@ -25,6 +25,7 @@ export const createPostSchemaSchemaDoc = {
 export const getPostSchema = z.object({
   id_Post: z.coerce.number().int('ID de post inválido'),
 });
+
 export const getPostSchemaDoc = {
   tags: ['Post'],
   description: 'Endpoint para obter um post pelo ID.',

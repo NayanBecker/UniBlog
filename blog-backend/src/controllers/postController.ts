@@ -15,6 +15,7 @@ export async function createPostController(request: FastifyRequest, reply: Fasti
             ...fields,
         });
 
+        console.log('DATA RECEBIDA:', data);
         const perfilId = Number(request.headers['id_perfil']);
         console.log('Perfil ID do header:', perfilId);
 

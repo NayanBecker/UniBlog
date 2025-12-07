@@ -68,7 +68,6 @@ export default function ProfileScreen() {
                     return;
                 }
 
-                // Perfil
                 const response = await api.get("/profile/get", {
                     headers: { id_Perfil: idPerfil },
                 });
@@ -76,8 +75,8 @@ export default function ProfileScreen() {
                 const data: ProfileData = response.data;
                 setProfile(data);
 
-                // Posts do usuário
                 await fetchUserPosts(data.id_Perfil);
+
             } catch (error: unknown) {
                 if (axios.isAxiosError(error)) {
                     console.error("Erro ao buscar perfil e posts:", error.response?.data || error.message);

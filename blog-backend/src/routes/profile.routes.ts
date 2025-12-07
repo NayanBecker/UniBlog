@@ -1,15 +1,13 @@
 import { FastifyInstance } from 'fastify';
 import { createProfileController, deleteProfileController, getAllProfilesController, getProfileController, updateProfileController, getProfilesByAccountIdController } from '../controllers/profile.controller';
 import { verifyJWT } from '../middlewares/auth.middleware';
-import { createProfileSchemaDoc, getProfileSchemaDoc, updateProfileSchemaDoc, deleteProfileSchemaDoc, getAllProfilesSchemaDoc, getProfilesByAccountIdSchemaDoc } from '@/controllers/schemas/profile.schema';
+import { getProfileSchemaDoc, deleteProfileSchemaDoc, getAllProfilesSchemaDoc, getProfilesByAccountIdSchemaDoc } from '@/controllers/schemas/profile.schema';
 
 export async function userRoutes(app: FastifyInstance) {
   app.addHook('onRequest', verifyJWT);
 
   app.post('/new',
-    {
-      schema: createProfileSchemaDoc
-    },
+
     createProfileController);
 
   app.get('/get',
@@ -19,9 +17,7 @@ export async function userRoutes(app: FastifyInstance) {
     getProfileController);
 
   app.put('/update',
-    {
-      schema: updateProfileSchemaDoc
-    },
+
     updateProfileController);
 
   app.delete('/delete/:id',
