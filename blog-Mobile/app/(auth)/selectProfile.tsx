@@ -33,7 +33,7 @@ export default function SelectProfile() {
 
     const handleSelect = async (profile: ProfileData) => {
         try {
-            await AsyncStorage.setItem("id_Perfil", String(profile.id_Perfil));
+            await AsyncStorage.setItem("id_perfil", String(profile.id_Perfil));
             console.log("Perfil selecionado:", profile.id_Perfil);
 
             router.replace("/(app)/feed");
