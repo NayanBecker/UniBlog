@@ -24,10 +24,9 @@ export default function Login() {
             });
             if (!validation.success) {
                 const firstError = validation.error.issues[0]?.message;
-                Alert.alert("Erro de validação", firstError || "Preencha todos os campos corretamente.");
+                Alert.alert("Atenção", firstError || "Preencha todos os campos corretamente.");
                 return;
             }
-
             const res = await api.post("/account/login", {
                 // email_Account: email,
                 email_Account: email,
@@ -38,14 +37,22 @@ export default function Login() {
             });
 
             await AsyncStorage.setItem("token", res.data.token);
-
             router.replace("/selectProfile");
-        } catch (err: any) {
-            console.error(err);
-            Alert.alert("Erro", "Falha no login. Verifique seus dados.");
+
+
+        } catch (error: string | any) {
+            if (error.response) {
+                console.log("Erro do servidor:", error.response.data);
+
+                Alert.alert(
+                    "Login inválido",
+                    error.response.data.message || "E-mail ou senha incorretos."
+                );
+            } else {
+                Alert.alert("Erro", "Não foi possível conectar ao servidor.");
+            }
         }
     }
-
     return (
         <View style={{ flex: 1, padding: 16, justifyContent: "center", backgroundColor: '#23A7F5' }}>
             <View style={{ alignItems: 'center', marginBottom: 172, flexDirection: 'row', justifyContent: 'center', gap: 8 }}>
@@ -80,6 +87,10 @@ export default function Login() {
 
                 <View style={{ marginBottom: 25 }}>
                     <Text style={{ color: '#E7F7FF' }}>Novo por aqui? <Link href="/(auth)/register" style={{ color: '#E7F7FF', fontWeight: 'bold' }}>Crie sua conta agora.</Link></Text>
+                </View>
+
+                <View style={{ marginBottom: 25 }}>
+                    <Text style={{ color: '#E7F7FF' }}>Esqueceu a senha? <Link href={"/(auth)/forgetPassword/wordle" as any} style={{ color: '#E7F7FF', fontWeight: 'bold' }}>Recupere aqui.</Link></Text>
                 </View>
 
             </View>

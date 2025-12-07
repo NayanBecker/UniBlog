@@ -1,7 +1,10 @@
 import { FastifyRequest, FastifyReply } from 'fastify';
-import { curtirService, descurtirService, comentarService, deletarComentarioService, getInteracoesByPostIdService } from '../services/interacoes.service';
-import { curtirSchema, comentarSchema, deletarComentarioSchema } from '../schemas/interacoes.schema';
-import { idProfileSchema } from '../schemas/profile.schema';
+import {
+    curtirService, descurtirService, comentarService, deletarComentarioService,
+    getInteracoesByPostIdService
+} from '../services/interacoesService';
+import { curtirSchema, comentarSchema, deletarComentarioSchema, getInteracoesSchema } from './schemas/interacoes.schema';
+import { idProfileSchema } from './schemas/profile.schema';
 
 export async function curtirController(request: FastifyRequest, reply: FastifyReply) {
     try {
@@ -48,6 +51,7 @@ export async function descurtirController(request: FastifyRequest, reply: Fastif
 export async function comentarController(request: FastifyRequest, reply: FastifyReply) {
     try {
         const data = comentarSchema.parse(request.body);
+
         const { id_Perfil } = idProfileSchema.parse({ id_Perfil: request.headers['id_Perfil'] });
         if (!id_Perfil) {
             return reply.status(400).send({ error: 'ID do perfil não fornecido no header' });
@@ -83,6 +87,20 @@ export async function deletarComentarioController(request: FastifyRequest, reply
     } catch (error) {
         return reply.status(400).send({
             error: 'Erro ao deletar comentário',
+            message: error instanceof Error ? error.message : 'Erro desconhecido',
+            stack: process.env.NODE_ENV === 'development' && error instanceof Error ? error.stack : undefined,
+        });
+    }
+}
+
+export async function getInteracoesController(request: FastifyRequest, reply: FastifyReply) {
+    try {
+        const { id_Post_PIC } = getInteracoesSchema.parse(request.query);
+        const result = await getInteracoesByPostIdService(id_Post_PIC);
+        return reply.status(200).send(result);
+    } catch (error) {
+        return reply.status(400).send({
+            error: 'Erro ao obter interações',
             message: error instanceof Error ? error.message : 'Erro desconhecido',
             stack: process.env.NODE_ENV === 'development' && error instanceof Error ? error.stack : undefined,
         });

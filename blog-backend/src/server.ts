@@ -1,12 +1,16 @@
-import { app } from './app'
+import { app, BuildServer } from './app';
 
 const start = async () => {
   try {
-    await app.listen({ port: 3333, host: '0.0.0.0' })
-  } catch (err) {
-    console.error(err)
-    process.exit(1)
-  }
-}
+    await BuildServer();
+    await app.listen({ port: 3333, host: '0.0.0.0' });
+    console.log('Server is running on http://0.0.0.0:3333');
+    console.log('Server is running on http://0.0.0.0:3333/docs');
 
-start()
+  } catch (err) {
+    console.error(err);
+    process.exit(1);
+  }
+};
+
+start();
