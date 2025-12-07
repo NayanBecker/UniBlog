@@ -3,7 +3,7 @@ import { View, TextInput, Button, Alert, ActivityIndicator, StyleSheet, Touchabl
 import { router } from "expo-router";
 import AsyncStorage from "@react-native-async-storage/async-storage";
 import ImagePickerComponent, { FileObject } from "../../src/components/ImageImportComponent";
-import { url } from "@/src/services/api";
+import { url } from "../../src/services/api";
 import Ionicons from "@expo/vector-icons/build/Ionicons";
 
 export default function CreatePost() {

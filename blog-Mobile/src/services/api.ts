@@ -4,7 +4,7 @@ import AsyncStorage from "@react-native-async-storage/async-storage";
 import { router } from "expo-router";
 
 const LOCAL_BASE =
-    Platform.OS === "android" ? "https://48b6c3125e0a.ngrok-free.app" : "http://minio.uniblog.cloud:3333";
+    Platform.OS === "android" ? "https://f8689178f31d.ngrok-free.app" : "http://minio.uniblog.cloud:3333";
 //Platform.OS === "android" ? "http://uno.uniblog.cloud:3000" : "http://minio.uniblog.cloud:3333";
 
 
@@ -14,7 +14,6 @@ export const api = axios.create({
     baseURL: LOCAL_BASE,
 });
 
-// adiciona o token em cada request
 api.interceptors.request.use(async (config) => {
 
     const token = await AsyncStorage.getItem("token");

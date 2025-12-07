@@ -1,12 +1,11 @@
 import { FastifyReply, FastifyRequest } from 'fastify';
 
-import { createAccountService, authenticateAccountService, updateAccountService, findAccountIdByEmailService } from '../services/account.service';
-import { createAccountSchema, authenticateAccountSchema, updateAccountSchema } from '../schemas/account.schema';
-
+import { createAccountService, authenticateAccountService, updateAccountService, findAccountIdByEmailService } from '../services/accountService';
+import { registerAccountSchema, authenticateAccountSchema, updateAccountSchema, recoverAccountSchema } from './schemas/account.schema';
 
 export async function registerAccountController(request: FastifyRequest, reply: FastifyReply) {
   try {
-    const data = createAccountSchema.parse(request.body);
+    const data = registerAccountSchema.parse(request.body);
 
     const account = await createAccountService(data);
 
@@ -34,9 +33,9 @@ export async function loginAccountController(request: FastifyRequest, reply: Fas
 
 export async function recoverAccountController(req: FastifyRequest, reply: FastifyReply) {
   try {
-    const { email_Account } = req.body as { email_Account: string };
+    const data = recoverAccountSchema.parse(req.body);
 
-    const accountId = await findAccountIdByEmailService({ email_Account });
+    const accountId = await findAccountIdByEmailService(data);
 
     return reply.status(200).send({ accountId });
   } catch (err: unknown) {
@@ -47,11 +46,11 @@ export async function recoverAccountController(req: FastifyRequest, reply: Fasti
 
 export async function updateAccountController(request: FastifyRequest, reply: FastifyReply) {
   try {
-    const { id_Account } = request.params as { id_Account: number };
-    const id_AccountNumber = Number(id_Account);
     const data = updateAccountSchema.parse(request.body);
+    const { id_Account } = request.params as { id_Account: number };
+    const id_AccountNum = Number(id_Account);
 
-    const account = await updateAccountService({ id_Account: id_AccountNumber, ...data });
+    const account = await updateAccountService({ id_Account: id_AccountNum, ...data });
 
     return reply.status(201).send(account);
   } catch (error) {
