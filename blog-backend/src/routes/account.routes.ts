@@ -22,9 +22,7 @@ export async function authRoutes(app: FastifyInstance) {
     updateAccountController
   );
   app.post('/recoverLogin',
-    {
-      schema: authenticateAccountSchemaDoc,
-    },
+
     recoverAccountController);
 
 }

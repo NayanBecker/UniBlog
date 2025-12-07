@@ -32,7 +32,7 @@ export function EditProfileButton({ profile, onProfileUpdated }: Props) {
       }
     }
     loadIdPerfil();
-  }, []);
+  }, [profile?.id_Perfil]);
 
   async function handleSave() {
     try {
