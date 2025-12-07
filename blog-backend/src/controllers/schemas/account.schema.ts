@@ -40,3 +40,11 @@ export const updateAccountSchemaDoc = {
 };
 
 
+export const recoverAccountSchema = z.object({
+  email_Account: z.string().max(200, 'O email pode ter no máximo 200 caracteres').email('Formato de email inválido'),
+});
+export const recoverAccountSchemaDoc = {
+  tags: ['Account'],
+  description: 'Endpoint para recuperar o ID da conta de usuário pelo email.',
+  body: zodToJsonSchema(recoverAccountSchema)
+};
