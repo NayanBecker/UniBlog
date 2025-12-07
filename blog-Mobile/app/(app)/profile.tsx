@@ -58,81 +58,81 @@ export default function ProfileScreen() {
     const [postsLoading, setPostsLoading] = useState(false);
 
     useEffect(() => {
-    async function fetchProfileAndPosts() {
-        try {
-            const token = await AsyncStorage.getItem("token");
-            const idPerfil = await AsyncStorage.getItem("id_Perfil");
+        async function fetchProfileAndPosts() {
+            try {
+                const token = await AsyncStorage.getItem("token");
+                const idPerfil = await AsyncStorage.getItem("id_perfil");
 
-            if (!token || !idPerfil) {
-                console.warn("Nenhum token ou id_perfil encontrado.");
-                return;
+                if (!token || !idPerfil) {
+                    console.warn("Nenhum token ou id_perfil encontrado.");
+                    return;
+                }
+
+                // Perfil
+                const response = await api.get("/profile/get", {
+                    headers: { id_Perfil: idPerfil },
+                });
+
+                const data: ProfileData = response.data;
+                setProfile(data);
+
+                // Posts do usuário
+                await fetchUserPosts(data.id_Perfil);
+            } catch (error: unknown) {
+                if (axios.isAxiosError(error)) {
+                    console.error("Erro ao buscar perfil e posts:", error.response?.data || error.message);
+                } else {
+                    console.error("Erro desconhecido:", error);
+                }
+            } finally {
+                setLoading(false);
             }
-
-            // Perfil
-            const response = await api.get("/profile/get", {
-                headers: { id_Perfil: idPerfil },
-            });
-
-            const data: ProfileData = response.data;
-            setProfile(data);
-
-            // Posts do usuário
-            await fetchUserPosts(data.id_Perfil);
-        } catch (error: unknown) {
-            if (axios.isAxiosError(error)) {
-                console.error("Erro ao buscar perfil e posts:", error.response?.data || error.message);
-            } else {
-                console.error("Erro desconhecido:", error);
-            }
-        } finally {
-            setLoading(false);
         }
-    }
 
-    fetchProfileAndPosts();
-}, []);
+        fetchProfileAndPosts();
+    }, []);
 
 
 
 
     const fetchUserPosts = async (userId: number) => {
-  try {
-    setPostsLoading(true);
-    const token = await AsyncStorage.getItem("token");
+        try {
+            setPostsLoading(true);
+            const token = await AsyncStorage.getItem("token");
 
-    const response = await api.get("/posts/get", {
-      headers: {
-        id_Perfil: String(userId),
-        Authorization: `Bearer ${token}`,
-        "Content-Type": "application/json",
-      },
-    });
+            const response = await api.get("/posts/get", {
+                headers: {
+                    id_Perfil: String(userId),
+                    Authorization: `Bearer ${token}`,
+                    "Content-Type": "application/json",
+                },
+            });
 
-    const postsData: PostData[] = response.data;
+            const postsData: PostData[] = response.data;
 
-    const sorted = postsData.slice().sort((a, b) => {
-      const aDate = a.createdAt_Post ? Date.parse(String(a.createdAt_Post)) : NaN;
-      const bDate = b.createdAt_Post ? Date.parse(String(b.createdAt_Post)) : NaN;
+            const sorted = postsData.slice().sort((a, b) => {
+                const aDate = a.createdAt_Post ? Date.parse(String(a.createdAt_Post)) : NaN;
+                const bDate = b.createdAt_Post ? Date.parse(String(b.createdAt_Post)) : NaN;
 
-      if (!Number.isNaN(aDate) && !Number.isNaN(bDate)) {
-        return bDate - aDate;
-      }
+                if (!Number.isNaN(aDate) && !Number.isNaN(bDate)) {
+                    return bDate - aDate;
+                }
 
-      return (b.id_Post ?? 0) - (a.id_Post ?? 0);
-    });
+                return (b.id_Post ?? 0) - (a.id_Post ?? 0);
+            });
 
-    setPosts(sorted);
-  } catch (error: any) {
-    if (axios.isAxiosError(error) && error.response?.status === 404) {
-      console.warn("Nenhum post encontrado. Lista vazia.");
-      setPosts([]);
-      return;
-    }
-    console.error("Erro ao buscar posts:", error.response?.data || error);
-  } finally {
-    setPostsLoading(false);
-  }
-};
+            setPosts(sorted);
+        } catch (error: any) {
+            if (axios.isAxiosError(error) && error.response?.status === 404) {
+                console.warn("Nenhum post encontrado. Lista vazia.");
+                setPosts([]);
+                return;
+            }
+            console.error("Erro ao buscar posts:", error.response?.data || error);
+        } finally {
+            setPostsLoading(false);
+        }
+    };
 
 
 
@@ -176,27 +176,27 @@ export default function ProfileScreen() {
     }
 
     if (!profile) {
-    return (
-        <View style={styles.container}>
-            <Text style={styles.title}>Erro ao carregar perfil</Text>
+        return (
+            <View style={styles.container}>
+                <Text style={styles.title}>Erro ao carregar perfil</Text>
 
-            <TouchableOpacity
-                style={{
-                    marginTop: 20,
-                    backgroundColor: "#e53935",
-                    paddingVertical: 10,
-                    paddingHorizontal: 20,
-                    borderRadius: 8,
-                }}
-                onPress={logout} // 👈 chama a função do utils/logout.ts
-            >
-                <Text style={{ color: "#fff", fontWeight: "bold", fontSize: 16 }}>
-                    Fazer logout
-                </Text>
-            </TouchableOpacity>
-        </View>
-    );
-}
+                <TouchableOpacity
+                    style={{
+                        marginTop: 20,
+                        backgroundColor: "#e53935",
+                        paddingVertical: 10,
+                        paddingHorizontal: 20,
+                        borderRadius: 8,
+                    }}
+                    onPress={logout} // 👈 chama a função do utils/logout.ts
+                >
+                    <Text style={{ color: "#fff", fontWeight: "bold", fontSize: 16 }}>
+                        Fazer logout
+                    </Text>
+                </TouchableOpacity>
+            </View>
+        );
+    }
 
 
     return (

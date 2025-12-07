@@ -17,7 +17,7 @@ export const createPostSchemaSchemaDoc = {
         description: 'ID do perfil do usuário'
       }
     },
-    required: ['id_perfil']
+    required: ['id_Perfil']
   },
   body: zodToJsonSchema(createPostSchema)
 };
@@ -36,7 +36,7 @@ export const getPostSchemaDoc = {
         description: 'ID do perfil do usuário'
       }
     },
-    required: ['id_perfil']
+    required: ['id_Perfil']
   },
   params: zodToJsonSchema(getPostSchema)
 };
@@ -55,7 +55,7 @@ export const deletePostSchemaDoc = {
         description: 'ID do perfil do usuário'
       }
     },
-    required: ['id_perfil']
+    required: ['id_Perfil']
   },
   params: zodToJsonSchema(deletePostSchema)
 };

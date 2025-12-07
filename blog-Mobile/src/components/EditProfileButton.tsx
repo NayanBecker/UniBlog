@@ -23,7 +23,7 @@ export function EditProfileButton({ profile, onProfileUpdated }: Props) {
   useEffect(() => {
     async function loadIdPerfil() {
       try {
-        const idRaw = await AsyncStorage.getItem("id_Perfil");
+        const idRaw = await AsyncStorage.getItem("id_perfil");
         if (idRaw) setIdPerfil(parseInt(idRaw, 10));
         else setIdPerfil(profile.id_Perfil);
       } catch (error) {
@@ -50,14 +50,14 @@ export function EditProfileButton({ profile, onProfileUpdated }: Props) {
         Alert.alert("Erro", "A descrição deve ter no máximo 200 caracteres.");
         return;
       }
-      
+
       const allowedFormats = ["image/jpeg", "image/png", "image/jpg", "image/webp"];
       if (foto && foto.startsWith("file://")) {
         const fileName = foto.split("/").pop() || "foto.jpg";
-        const fileType = 
+        const fileType =
           fileName.endsWith(".png") ? "image/png" :
-          fileName.endsWith(".webp") ? "image/webp" :
-          "image/jpeg";
+            fileName.endsWith(".webp") ? "image/webp" :
+              "image/jpeg";
 
         if (!allowedFormats.includes(fileType)) {
           Alert.alert("Erro", "Formato de imagem inválido. Aceito: JPG, JPEG, PNG, WEBP.");
@@ -66,15 +66,15 @@ export function EditProfileButton({ profile, onProfileUpdated }: Props) {
       }
 
       const formData = new FormData();
-      formData.append("id_Perfil", String(idPerfil));
+      formData.append("id_perfil", String(idPerfil));
       formData.append("descricao_Perfil", descricao || "");
 
       if (foto && foto.startsWith("file://")) {
         const fileName = foto.split("/").pop() || "foto.jpg";
         const fileType =
           fileName.endsWith(".png") ? "image/png" :
-          fileName.endsWith(".webp") ? "image/webp" :
-          "image/jpeg";
+            fileName.endsWith(".webp") ? "image/webp" :
+              "image/jpeg";
 
         formData.append("foto_Perfil", {
           uri: foto,
