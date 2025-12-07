@@ -1,5 +1,5 @@
 import { useState } from "react";
-import { View, Text, TextInput, Button, Alert, Image, StyleSheet, TouchableOpacity } from "react-native";
+import { View, Text, TextInput, Alert, Image, StyleSheet, TouchableOpacity } from "react-native";
 import AsyncStorage from "@react-native-async-storage/async-storage";
 import { api } from "../../src/services/api";
 import { Link, useRouter } from "expo-router";
@@ -28,10 +28,6 @@ export default function Login() {
                 return;
             }
             const res = await api.post("/account/login", {
-                // email_Account: email,
-                email_Account: email,
-                // password_Account: password,
-                password_Account: password,
                 email_Account: email,
                 password_Account: password,
             });
