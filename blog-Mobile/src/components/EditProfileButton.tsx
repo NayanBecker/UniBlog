@@ -3,6 +3,7 @@ import { TouchableOpacity, StyleSheet, Modal, View, TextInput, Button, Text, Ale
 import { Feather } from "@expo/vector-icons";
 import { ImageProfileComponent } from "@/src/components/ImageProfileComponent";
 import AsyncStorage from "@react-native-async-storage/async-storage";
+import { url } from "../services/api";
 
 type Props = {
   profile: {
@@ -83,7 +84,7 @@ export function EditProfileButton({ profile, onProfileUpdated }: Props) {
         } as any);
       }
 
-      const response = await fetch("http://192.168.3.9:3333/profile/update", {
+      const response = await fetch(`${url}/profile/update`, {
         method: "PUT",
         headers: {
           Authorization: `Bearer ${token}`,
