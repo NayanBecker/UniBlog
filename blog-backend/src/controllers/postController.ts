@@ -17,6 +17,7 @@ export async function createPostController(request: FastifyRequest, reply: Fasti
 
         const perfilId = Number(request.headers['id_perfil']);
         console.log('Perfil ID do header:', perfilId);
+
         if (!perfilId) {
             return reply.status(400).send({ error: 'ID do perfil não fornecido no header' });
         }
@@ -43,6 +44,7 @@ export async function deletePostController(request: FastifyRequest, reply: Fasti
     try {
         const perfilId = Number(request.headers['id_perfil']);
         const postId = deletePostSchema.parse(request.params);
+
         const post = await deletePostService(postId, perfilId);
         return reply.status(200).send(post);
     } catch (error) {
