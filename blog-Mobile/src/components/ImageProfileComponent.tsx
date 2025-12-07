@@ -6,8 +6,8 @@ interface ImageProfileComponentProps {
   name: string | undefined;
   photoUrl?: string | null;
   size?: number;
-  editable?: boolean; 
-  onPhotoChange?: (uri: string) => void; 
+  editable?: boolean;
+  onPhotoChange?: (uri: string) => void;
 }
 
 export function ImageProfileComponent({
@@ -27,7 +27,6 @@ export function ImageProfileComponent({
       ? photoUrl
       : null;
 
-  // 📸 Função para escolher nova imagem
   async function handlePickImage() {
     try {
       const permission = await ImagePicker.requestMediaLibraryPermissionsAsync();
@@ -45,7 +44,7 @@ export function ImageProfileComponent({
 
       if (!result.canceled && result.assets.length > 0) {
         const uri = result.assets[0].uri;
-        onPhotoChange?.(uri); 
+        onPhotoChange?.(uri);
       }
     } catch (error) {
       console.error("Erro ao escolher imagem:", error);
