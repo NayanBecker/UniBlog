@@ -17,7 +17,7 @@ export const createPostSchemaSchemaDoc = {
         description: 'ID do perfil do usuário'
       }
     },
-    required: ['id_perfil']
+    required: ['id_Perfil']
   },
   body: zodToJsonSchema(createPostSchema)
 };
@@ -25,6 +25,7 @@ export const createPostSchemaSchemaDoc = {
 export const getPostSchema = z.object({
   id_Post: z.coerce.number().int('ID de post inválido'),
 });
+
 export const getPostSchemaDoc = {
   tags: ['Post'],
   description: 'Endpoint para obter um post pelo ID.',
@@ -36,7 +37,7 @@ export const getPostSchemaDoc = {
         description: 'ID do perfil do usuário'
       }
     },
-    required: ['id_perfil']
+    required: ['id_Perfil']
   },
   params: zodToJsonSchema(getPostSchema)
 };
@@ -55,7 +56,7 @@ export const deletePostSchemaDoc = {
         description: 'ID do perfil do usuário'
       }
     },
-    required: ['id_perfil']
+    required: ['id_Perfil']
   },
   params: zodToJsonSchema(deletePostSchema)
 };

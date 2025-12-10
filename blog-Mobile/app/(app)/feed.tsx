@@ -7,8 +7,6 @@ import { ImageProfileComponent } from "@/src/components/ImageProfileComponent";
 import Ionicons from "@expo/vector-icons/build/Ionicons";
 import { useRouter } from "expo-router";
 
-
-
 type PostData = {
     id_Post: number;
     title_Post?: string | null;

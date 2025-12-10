@@ -9,6 +9,8 @@ export interface PerfilHeaderDataInterface {
 
 export async function createPostService(data: CreatePostData, id_Perfil_Post: number) {
   const createdPost = await postRepository.createPost(data, id_Perfil_Post);
+  console.log('Criando post com:', data);
+  console.log('Perfil:', id_Perfil_Post);
   await postRepository.createInteracaoCapa(createdPost.id_Post);
   return createdPost;
 }

@@ -7,7 +7,7 @@ export interface ParsedMultipart {
 }
 
 export async function parseMultipart(request: any): Promise<ParsedMultipart> {
-    const parts = await request.parts();
+    const parts = request.parts();
     const fields: Record<string, any> = {};
     let fileBuffer: Buffer | null = null;
     let fileName: string | null = null;
